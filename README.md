@@ -1,11 +1,15 @@
-# My Personal Project
+# BoxHead
 
-## A subtitle
+## A top-down zombie shooter game
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+This is a top-down zombie shooter game inspired by the popular web game Box Head.
+The user will control a soldier and try to survive as long as they can by shooting
+zombies that spawn.
 
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
+Users of this project are looking for a lax and fun way to pass their time.
+
+This project is interesting to me because:
+
+- I was a big fan of the original Box Head game
+- I believe that coding this project will be appropriately challenging
+- I hope that I will create an application that I myself will enjoy using
