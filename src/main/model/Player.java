@@ -6,9 +6,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import enviornment.*;
 
-public class Player implements Person {
-    private int posX;
-    private int posY;
+public class Player extends Person {
+//    private int posX;
+//    private int posY;
     private Direction dir;
     private int health;
     private boolean alive;
@@ -18,7 +18,7 @@ public class Player implements Person {
     //private EnumSet<Weapons> weapons;
     //private Set<Weapon> weapons;
 
-    private enum Direction {
+    public enum Direction {
         N, E, S, W
     }
 
@@ -68,12 +68,16 @@ public class Player implements Person {
         dir = Direction.valueOf(d);
     }
 
-    public ArrayList<Integer> getPosition() {
-        ArrayList<Integer> position = new ArrayList<>();
-        position.add(posX);
-        position.add(posY);
-        return position;
+    public Direction getDirection() {
+        return dir;
     }
+
+//    public ArrayList<Integer> getPosition() {
+//        ArrayList<Integer> position = new ArrayList<>();
+//        position.add(posX);
+//        position.add(posY);
+//        return position;
+//    }
 
     public ArrayList<Weapon> getWeapons() {
         return weapons;

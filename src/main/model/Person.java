@@ -1,9 +1,28 @@
 package model;
 
-public interface Person {
-    void move();
+import java.util.ArrayList;
 
-    void hurt();
+public abstract class Person {
+    int posX;
+    int posY;
+//    void move();
+//
+//    void hurt();
+//
+//    void die();
 
-    void die();
+    public ArrayList<Integer> getPosition() {
+        ArrayList<Integer> position = new ArrayList<>();
+        position.add(posX);
+        position.add(posY);
+        return position;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
 }
