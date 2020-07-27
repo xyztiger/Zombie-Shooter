@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public abstract class Person {
+public abstract class Entity {
     int posX;
     int posY;
 //    void move();
@@ -24,5 +24,13 @@ public abstract class Person {
 
     public int getPosY() {
         return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 }

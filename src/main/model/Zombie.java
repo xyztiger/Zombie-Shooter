@@ -1,10 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Random;
 import enviornment.*;
 
-public class Zombie extends Person {
+public class Zombie extends Entity {
 //    private int posX;
 //    private int posY;
     private boolean alive;
@@ -20,7 +19,7 @@ public class Zombie extends Person {
         alive = false;
     }
 
-    public boolean alive() {
+    public boolean getAlive() {
         return alive;
     }
 

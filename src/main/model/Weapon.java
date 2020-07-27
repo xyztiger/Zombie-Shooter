@@ -4,7 +4,7 @@ import exceptions.*;
 
 public abstract class Weapon {
     private int ammo;
-    private int price;
+//    private int price;
     private String name;
 
     public void shoot() throws NoAmmoException {
@@ -34,4 +34,6 @@ public abstract class Weapon {
     public int getAmmo() {
         return ammo;
     }
+
+    public abstract int getInitialAmmo();
 }

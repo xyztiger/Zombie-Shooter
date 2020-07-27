@@ -1,12 +1,9 @@
 package ui;
 
-import apple.laf.JRSUIConstants;
+import exceptions.BorderException;
 import exceptions.InvalidIndexException;
-import exceptions.NoAmmoException;
 import model.*;
 
-import javax.sound.midi.Soundbank;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -37,7 +34,7 @@ public class Game {
                 endGame = true;
             }
             processMainScreen(command);
-            if (!zombie.alive()) {
+            if (!zombie.getAlive()) {
                 zombie = new Zombie();
             }
         }
@@ -84,23 +81,27 @@ public class Game {
     }
 
     private void processMovement(String movement) {
-        switch (movement) {
-            case "w":
-                player.setDirection("N");
-                player.move();
-                break;
-            case "a":
-                player.setDirection("W");
-                player.move();
-                break;
-            case "s":
-                player.setDirection("S");
-                player.move();
-                break;
-            case "d":
-                player.setDirection("E");
-                player.move();
-                break;
+        try {
+            switch (movement) {
+                case "w":
+                    player.setDirection("N");
+                    player.move();
+                    break;
+                case "a":
+                    player.setDirection("W");
+                    player.move();
+                    break;
+                case "s":
+                    player.setDirection("S");
+                    player.move();
+                    break;
+                case "d":
+                    player.setDirection("E");
+                    player.move();
+                    break;
+            }
+        } catch (BorderException be) {
+            System.out.println("Hit the wall of the room!");
         }
         System.out.println("Now at" + player.getPosition());
     }
@@ -109,7 +110,7 @@ public class Game {
         System.out.println("current weapon: " + player.getCurrentWeaponName());
         System.out.println("current weapon ammo: " + player.getCurrentWeapon().getAmmo());
         System.out.println("current position: " + player.getPosition());
-        System.out.println("current health: " + player.getHealth());
+//        System.out.println("current health: " + player.getHealth());
         System.out.println("ZOMBIE AT: " + zombie.getPosition() + "!!!");
         System.out.println("press 'I' for instructions");
     }
@@ -143,6 +144,32 @@ public class Game {
         }
     }
 
+    //    private void processBuyGun(String choice) {
+//        ArrayList<String> weaponNames = player.getWeaponNames();
+//        Uzi uzi = new Uzi();
+//        RPG rpg = new RPG();
+//        Shotgun shotgun = new Shotgun();
+//        switch (choice) {
+//            case "u":
+//                if (!weaponNames.contains(uzi.getName())) {
+//                    player.addWeapons(uzi);
+//
+//                }
+//                break;
+//            case "r":
+//                if (!weaponNames.contains(rpg.getName())) {
+//                    player.addWeapons(rpg);
+//
+//                }
+//                break;
+//            case "s":
+//                if (!weaponNames.contains(shotgun.getName())) {
+//                    player.addWeapons(shotgun);
+//
+//                }
+//                break;
+//        }
+//    }
     private void processBuyGun(String choice) {
         ArrayList<String> weaponNames = player.getWeaponNames();
         Uzi uzi = new Uzi();
@@ -150,22 +177,13 @@ public class Game {
         Shotgun shotgun = new Shotgun();
         switch (choice) {
             case "u":
-                if (!weaponNames.contains(uzi.getName())) {
-                    player.addWeapons(uzi);
-
-                }
+                player.addWeapons(uzi);
                 break;
             case "r":
-                if (!weaponNames.contains(rpg.getName())) {
-                    player.addWeapons(rpg);
-
-                }
+                player.addWeapons(rpg);
                 break;
             case "s":
-                if (!weaponNames.contains(shotgun.getName())) {
-                    player.addWeapons(shotgun);
-
-                }
+                player.addWeapons(shotgun);
                 break;
         }
     }
