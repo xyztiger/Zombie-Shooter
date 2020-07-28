@@ -2,16 +2,22 @@ package model;
 
 import exceptions.*;
 
-// Represents all types of weapons that the players can buy
-// all weapons have their specific ammo amounts
-// all weapons have specific names
-// all weapons can shoot and kill zombies by consuming ammo
+/*
+ * Represents all types of weapons that the players can buy
+ * all weapons have their specific ammo amounts
+ * all weapons have specific names
+ * all weapons can shoot and kill zombies by consuming ammo
+ */
 
 public abstract class Weapon {
-    private int ammo;
-//    private int price;
-    private String name;
+    private int ammo; // the weapon's current ammo count
+    private String name; // the weapon's name
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: reduces the ammo count of the weapon by 1
+     *          if no more ammo, throws an exception which indicates no ammo
+     */
     public void shoot() throws NoAmmoException {
         if (ammo > 0) {
             ammo -= 1;
@@ -20,6 +26,10 @@ public abstract class Weapon {
         }
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: increases the weapon's ammo count by specified amount
+     */
     public void loadAmmo(int amount) {
         ammo += amount;
     }
