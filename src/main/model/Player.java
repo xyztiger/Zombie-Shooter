@@ -11,10 +11,10 @@ import exceptions.BorderException;
 
 public class Player extends Entity {
 
-    private Direction dir;
-    private ArrayList<Weapon> weapons;
-    private ArrayList<String> weaponNames;
-    private Weapon currentWeapon;
+    private Direction dir; // the direction the player is currently facing
+    private ArrayList<Weapon> weapons; // the weapons the player currently has
+    private ArrayList<String> weaponNames; // the names of the weapons the player currently has
+    private Weapon currentWeapon; // the current weapon the player is using
 //    private EnumSet<Weapons> weapons;
 //    private Set<Weapon> weapons;
 //    private int health;
@@ -22,10 +22,15 @@ public class Player extends Entity {
 //    private int posX;
 //    private int posY;
 
+    // possible directions the player can face: N: North, E: East, S: South, W: West
     public enum Direction {
         N, E, S, W
     }
 
+    /*
+     * EFFECTS: creates the player at the center of the stage
+     *          the player is created with only one weapon: a pistol with max ammo
+     */
     public Player() {
         posX = Stage.WIDTH / 2;
         posY = Stage.HEIGHT / 2;
@@ -38,6 +43,12 @@ public class Player extends Entity {
         currentWeapon = pistol;
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: moves the player by one unit in the direction they are facing;
+     *          if the player attempts to move beyond the boundaries set by the stage,
+     *          the player does not move
+     */
     public void move() throws BorderException {
         if (dir == Direction.N) {
             posY -= 1;
@@ -54,6 +65,7 @@ public class Player extends Entity {
         checkHitBorder();
     }
 
+    // EFFECTS: if the player is beyond the boundaries set by the stage, throw a border exception
     public void checkHitBorder() throws BorderException {
         if (getPosY() < 0) {
             setPosY(0);
@@ -85,6 +97,11 @@ public class Player extends Entity {
         return weapons;
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: adds the specified weapon to the player's list of available weapons
+     *          if the weapon is not already in the list of available weapons
+     */
     public void addWeapons(Weapon choice) {
         if (!weaponNames.contains(choice.getName())) {
             weapons.add(choice);
@@ -100,6 +117,10 @@ public class Player extends Entity {
         return currentWeapon.getName();
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: sets the player's current weapon to the specified weapon
+     */
     public void setCurrentWeapon(Weapon weapon) {
         currentWeapon = weapon;
     }

@@ -14,14 +14,16 @@ public class Game {
     private Zombie zombie;
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
-//    private enum Direction {
-//        N, E, S, W
-//    }
-
+    // EFFECTS: runs the game
     public Game() {
         startGame();
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: shows the main menu, spawns the player and a zombie
+     *          processes user input
+     */
     private void startGame() {
         boolean endGame = false;
         input = new Scanner(System.in);
@@ -41,31 +43,15 @@ public class Game {
         System.out.println("See you next time!");
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the player and a zombie
     private void init() {
         player = new Player();
         zombie = new Zombie();
     }
 
-//    private void processMainScreen(String command) {
-//        switch (command) {
-////            case "q":
-////                setToFalse(endGame);
-////                break;
-//            case "b":
-//                showShop();
-//                break;
-//            case "c":
-//                showWeapons();
-//                break;
-//            case "i":
-//                displayInstructions();
-//                break;
-//            default:
-//                processMovement(command);
-//                break;
-//        }
-//    }
-
+    // MODIFIES: this
+    // EFFECTS: processes user input for the main screen
     private void processMainScreen(String command) {
         if (command.equals("b")) {
             showShop();
@@ -80,6 +66,8 @@ public class Game {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: proccesses movement input in the main screen for the player
     private void processMovement(String movement) {
         try {
             switch (movement) {
@@ -106,6 +94,7 @@ public class Game {
         System.out.println("Now at" + player.getPosition());
     }
 
+    // EFFECTS: displays list of information the user needs to know
     private void displayMenu() {
         System.out.println("current weapon: " + player.getCurrentWeaponName());
         System.out.println("current weapon ammo: " + player.getCurrentWeapon().getAmmo());
@@ -115,6 +104,7 @@ public class Game {
         System.out.println("press 'I' for instructions");
     }
 
+    // EFFECTS: displays list of instructions to play the game
     private void displayInstructions() {
         System.out.println("INSTRUCTIONS:");
         System.out.println("use 'WASD' to move");
@@ -124,6 +114,12 @@ public class Game {
 
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: displays the shop with available guns the player can purchase
+     *         if a player purchases a gun that they do not already have,
+     *         the gun is added to the player's list of available weapons
+     */
     private void showShop() {
         String command = "";
 
@@ -144,32 +140,8 @@ public class Game {
         }
     }
 
-    //    private void processBuyGun(String choice) {
-//        ArrayList<String> weaponNames = player.getWeaponNames();
-//        Uzi uzi = new Uzi();
-//        RPG rpg = new RPG();
-//        Shotgun shotgun = new Shotgun();
-//        switch (choice) {
-//            case "u":
-//                if (!weaponNames.contains(uzi.getName())) {
-//                    player.addWeapons(uzi);
-//
-//                }
-//                break;
-//            case "r":
-//                if (!weaponNames.contains(rpg.getName())) {
-//                    player.addWeapons(rpg);
-//
-//                }
-//                break;
-//            case "s":
-//                if (!weaponNames.contains(shotgun.getName())) {
-//                    player.addWeapons(shotgun);
-//
-//                }
-//                break;
-//        }
-//    }
+    // MODIFIES: this
+    // EFFECTS: processes user input and adds the selected gun to the player's list of available guns
     private void processBuyGun(String choice) {
         ArrayList<String> weaponNames = player.getWeaponNames();
         Uzi uzi = new Uzi();
@@ -188,6 +160,8 @@ public class Game {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: shows the list of available guns, prompts the player to choose an available gun
     private void showWeapons() {
         int index = 0;
         String command = "";
@@ -201,19 +175,15 @@ public class Game {
 
             command = input.next();
             command = command.toLowerCase();
-//
-//            try {
-//                processChooseWeapon(command);
-//            } catch (InvalidIndexException e) {
-//                System.out.println("No weapon at that index! Please choose from one of the weapons below:");
-//                showWeapons();
-//            }
+
             if (!processChooseWeapon(command)) {
                 showWeapons();
             }
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input to change the player's currently selected weapon
     private boolean processChooseWeapon(String choice) {
         if (checkValidIndex(choice)) {
             ArrayList<Weapon> weapons = player.getWeapons();
@@ -238,6 +208,7 @@ public class Game {
         return false;
     }
 
+    // EFFECTS: checks if the user's input for selecting an available gun was valid
     private boolean checkValidIndex(String choice) {
         ArrayList<String> indexes = new ArrayList<>();
         int index = 0;
@@ -248,6 +219,11 @@ public class Game {
         return indexes.contains(choice);
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: shoots the player's current weapon in the player's current direction;
+     *          if a zombie is hit, the zombie dies and a new one spawns
+     */
     private void processShootGun() {
         Weapon currentWeapon = player.getCurrentWeapon();
         try {
@@ -263,6 +239,7 @@ public class Game {
         }
     }
 
+    // EFFECTS: detects whether the player's shot hit a zombie or not
     private boolean detectHit() {
         switch (player.getDirection()) {
             case N:
