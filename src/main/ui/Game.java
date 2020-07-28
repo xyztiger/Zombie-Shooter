@@ -1,13 +1,13 @@
 package ui;
 
 import exceptions.BorderException;
-import exceptions.InvalidIndexException;
 import model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+// A game where a player controls a character to move and shoot zombies
 public class Game {
     private Scanner input;
     private Player player;
@@ -201,46 +201,51 @@ public class Game {
 
             command = input.next();
             command = command.toLowerCase();
-
-            try {
-                processChooseWeapon(command);
-            } catch (InvalidIndexException e) {
-                System.out.println("No weapon at that index! Please choose from one of the weapons below:");
+//
+//            try {
+//                processChooseWeapon(command);
+//            } catch (InvalidIndexException e) {
+//                System.out.println("No weapon at that index! Please choose from one of the weapons below:");
+//                showWeapons();
+//            }
+            if (!processChooseWeapon(command)) {
                 showWeapons();
             }
         }
     }
 
-    private void processChooseWeapon(String choice) throws InvalidIndexException {
-        checkValidIndex(choice);
-        ArrayList<Weapon> weapons = player.getWeapons();
-        switch (choice) {
-            case "1":
-                player.setCurrentWeapon(weapons.get(0));
-                break;
-            case "2":
-                player.setCurrentWeapon(weapons.get(1));
-                break;
-            case "3":
-                player.setCurrentWeapon(weapons.get(2));
-                break;
-            case "4":
-                player.setCurrentWeapon(weapons.get(3));
-                break;
+    private boolean processChooseWeapon(String choice) {
+        if (checkValidIndex(choice)) {
+            ArrayList<Weapon> weapons = player.getWeapons();
+            switch (choice) {
+                case "1":
+                    player.setCurrentWeapon(weapons.get(0));
+                    break;
+                case "2":
+                    player.setCurrentWeapon(weapons.get(1));
+                    break;
+                case "3":
+                    player.setCurrentWeapon(weapons.get(2));
+                    break;
+                case "4":
+                    player.setCurrentWeapon(weapons.get(3));
+                    break;
+            }
+            System.out.println("Now using the " + player.getCurrentWeaponName() + "!");
+            return true;
         }
-        System.out.println("Now using the " + player.getCurrentWeaponName() + "!");
+        System.out.println("No weapon at that index! Please choose from one of the weapons below:");
+        return false;
     }
 
-    private void checkValidIndex(String choice) throws InvalidIndexException {
+    private boolean checkValidIndex(String choice) {
         ArrayList<String> indexes = new ArrayList<>();
         int index = 0;
         while (index < player.getWeapons().size()) {
             index++;
             indexes.add(Integer.toString(index));
         }
-        if (!indexes.contains(choice)) {
-            throw new InvalidIndexException();
-        }
+        return indexes.contains(choice);
     }
 
     private void processShootGun() {

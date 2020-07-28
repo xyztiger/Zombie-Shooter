@@ -2,6 +2,11 @@ package model;
 
 import exceptions.*;
 
+// Represents all types of weapons that the players can buy
+// all weapons have their specific ammo amounts
+// all weapons have specific names
+// all weapons can shoot and kill zombies by consuming ammo
+
 public abstract class Weapon {
     private int ammo;
 //    private int price;

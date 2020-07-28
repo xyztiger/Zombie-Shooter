@@ -161,4 +161,32 @@ class PlayerTest {
         assertEquals(3, testWeaponNames.size());
     }
 
+    @Test
+    void testGetDirection() {
+        testPlayer.setDirection("N");
+        assertEquals(testPlayer.getDirection(), Player.Direction.N);
+        assertNotEquals(testPlayer.getDirection(), Player.Direction.S);
+        testPlayer.setDirection("W");
+        assertNotEquals(testPlayer.getDirection(), Player.Direction.N);
+        assertEquals(testPlayer.getDirection(), Player.Direction.W);
+        testPlayer.setDirection("E");
+        assertNotEquals(testPlayer.getDirection(), Player.Direction.S);
+        assertEquals(testPlayer.getDirection(), Player.Direction.E);
+        testPlayer.setDirection("S");
+        assertNotEquals(testPlayer.getDirection(), Player.Direction.N);
+        assertEquals(testPlayer.getDirection(), Player.Direction.S);
+    }
+
+    @Test
+    void testSetCurrentWeapon() {
+        assertTrue(testPlayer.getCurrentWeapon() instanceof Pistol);
+        assertFalse(testPlayer.getCurrentWeapon() instanceof Uzi);
+        assertFalse(testPlayer.getCurrentWeapon() instanceof RPG);
+        Uzi testUzi = new Uzi();
+        testPlayer.setCurrentWeapon(testUzi);
+        assertFalse(testPlayer.getCurrentWeapon() instanceof Pistol);
+        assertTrue(testPlayer.getCurrentWeapon() instanceof Uzi);
+        assertFalse(testPlayer.getCurrentWeapon() instanceof RPG);
+    }
+
 }

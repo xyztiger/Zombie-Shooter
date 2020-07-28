@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+// Represents an entity which occupies a specific location (x-position and y-position) on the stage
 public abstract class Entity {
     int posX;
     int posY;

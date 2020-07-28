@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import enviornment.*;
 import exceptions.BorderException;
 
+// Represents the player which the user can move around the stage and shoot from to kill zombies
+// the player has a direction of either N, E, S, or W which they are facing and can shoot the gun in that direction
+// the player has an arsenal of weapons which they carry and may choose from to fire
+
 public class Player extends Entity {
 
     private Direction dir;
