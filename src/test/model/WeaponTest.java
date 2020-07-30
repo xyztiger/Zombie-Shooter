@@ -11,8 +11,8 @@ public class WeaponTest {
 
     @BeforeEach
     void runBefore() {
-        testPistol = new Pistol();
-        testUzi = new Uzi();
+        this.testPistol = new Pistol();
+        this.testUzi = new Uzi();
         }
 
     @Test

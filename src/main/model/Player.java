@@ -27,6 +27,7 @@ public class Player extends Entity {
         N, E, S, W
     }
 
+
     /*
      * EFFECTS: creates the player at the center of the stage
      *          the player is created with only one weapon: a pistol with max ammo

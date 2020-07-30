@@ -111,6 +111,7 @@ public class Game {
         System.out.println("press 'C' to choose a weapon");
         System.out.println("press 'B' to buy new weapons");
         System.out.println("press 'Q' to quit game");
+        System.out.println("press 'J' to shoot!");
 
     }
 
