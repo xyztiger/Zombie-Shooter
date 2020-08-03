@@ -2,6 +2,8 @@ package model;
 
 import exceptions.*;
 
+import java.util.Objects;
+
 /*
  * Represents all types of weapons that the players can buy
  * all weapons have their specific ammo amounts
@@ -51,4 +53,21 @@ public abstract class Weapon {
     }
 
     public abstract int getInitialAmmo();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Weapon weapon = (Weapon) o;
+        return name.equals(weapon.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

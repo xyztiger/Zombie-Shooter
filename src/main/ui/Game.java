@@ -5,6 +5,7 @@ import model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 // A game where a player controls a character to move and shoot zombies
@@ -135,7 +136,8 @@ public class Game {
         while (!command.equals("q")) {
             showScore();
             System.out.println("Current weapons:");
-            for (Weapon w : player.getWeapons()) {
+            HashMap<Integer, Weapon> weapons = player.getWeapons();
+            for (Weapon w : weapons.values()) {
                 System.out.println(w.getName() + ": " + w.getAmmo());
             }
             System.out.println("press 'U' to buy Uzi/ammo");
@@ -153,7 +155,6 @@ public class Game {
     // MODIFIES: this
     // EFFECTS: processes user input and adds the selected gun to the player's list of available guns
     private void processBuyGun(String choice) {
-        ArrayList<String> weaponNames = player.getWeaponNames();
         Uzi uzi = new Uzi();
         RPG rpg = new RPG();
         Shotgun shotgun = new Shotgun();
@@ -178,9 +179,10 @@ public class Game {
 
         while (command.equals("")) {
             System.out.println("Press number keys to select weapon:");
-            for (String weapon : player.getWeaponNames()) {
+            HashMap<Integer, Weapon> weapons = player.getWeapons();
+            for (Weapon w : weapons.values()) {
                 index++;
-                System.out.println(index + ": " + weapon);
+                System.out.println(index + ": " + w.getName());
             }
 
             command = input.next();
@@ -196,19 +198,19 @@ public class Game {
     // EFFECTS: processes user input to change the player's currently selected weapon
     private boolean processChooseWeapon(String choice) {
         if (checkValidIndex(choice)) {
-            ArrayList<Weapon> weapons = player.getWeapons();
+            HashMap<Integer, Weapon> weapons = player.getWeapons();
             switch (choice) {
                 case "1":
-                    player.setCurrentWeapon(weapons.get(0));
-                    break;
-                case "2":
                     player.setCurrentWeapon(weapons.get(1));
                     break;
-                case "3":
+                case "2":
                     player.setCurrentWeapon(weapons.get(2));
                     break;
-                case "4":
+                case "3":
                     player.setCurrentWeapon(weapons.get(3));
+                    break;
+                case "4":
+                    player.setCurrentWeapon(weapons.get(4));
                     break;
             }
             System.out.println("Now using the " + player.getCurrentWeaponName() + "!");

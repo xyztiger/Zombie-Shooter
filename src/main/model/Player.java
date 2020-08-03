@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import enviornment.*;
 import exceptions.BorderException;
@@ -12,8 +13,7 @@ import exceptions.BorderException;
 public class Player extends Entity {
 
     private Direction dir; // the direction the player is currently facing
-    private ArrayList<Weapon> weapons; // the weapons the player currently has
-    private ArrayList<String> weaponNames; // the names of the weapons the player currently has
+    private HashMap<Integer, Weapon> weapons; // the weapons the player currently has
     private Weapon currentWeapon; // the current weapon the player is using
 //    private EnumSet<Weapons> weapons;
 //    private Set<Weapon> weapons;
@@ -37,8 +37,7 @@ public class Player extends Entity {
         posY = Stage.HEIGHT / 2;
 //        health = 100;
 //        alive = true;
-        weapons = new ArrayList<>();
-        weaponNames = new ArrayList<>();
+        weapons = new HashMap<>();
         Weapon pistol = new Pistol();
         addWeapons(pistol);
         currentWeapon = pistol;
@@ -94,7 +93,7 @@ public class Player extends Entity {
         return dir;
     }
 
-    public ArrayList<Weapon> getWeapons() {
+    public HashMap<Integer, Weapon> getWeapons() {
         return weapons;
     }
 
@@ -104,14 +103,10 @@ public class Player extends Entity {
      *          if the weapon is not already in the list of available weapons
      */
     public void addWeapons(Weapon choice) {
-        if (!weaponNames.contains(choice.getName())) {
-            weapons.add(choice);
-            weaponNames.add(choice.getName());
+        int nextIndex = weapons.size() + 1;
+        if (!weapons.containsValue(choice)) {
+            weapons.put(nextIndex, choice);
         }
-    }
-
-    public ArrayList<String> getWeaponNames() {
-        return weaponNames;
     }
 
     public String getCurrentWeaponName() {

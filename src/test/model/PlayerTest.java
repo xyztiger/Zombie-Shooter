@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,6 @@ class PlayerTest {
         assertEquals(Stage.HEIGHT / 2, testPlayer.posY);
         assertNotNull(testPlayer.getWeapons());
         assertTrue(testPlayer.getCurrentWeapon() instanceof Pistol);
-        assertNotNull(testPlayer.getWeaponNames());
         assertEquals("Pistol", testPlayer.getCurrentWeaponName());
         assertEquals(500, testPlayer.getCurrentWeapon().getAmmo());
     }
@@ -137,28 +137,21 @@ class PlayerTest {
 
     @Test
     void testAddWeapons() {
-        ArrayList<Weapon> testWeapons = testPlayer.getWeapons();
-        ArrayList<String> testWeaponNames = testPlayer.getWeaponNames();
+        HashMap<Integer, Weapon> testWeapons = testPlayer.getWeapons();
         assertEquals(1, testWeapons.size());
-        assertEquals(1, testWeaponNames.size());
         Weapon testCurrentWeapon = testPlayer.getCurrentWeapon();
         assertTrue(testCurrentWeapon instanceof Pistol);
         assertEquals("Pistol", testPlayer.getCurrentWeaponName());
         Uzi testUzi = new Uzi();
         testPlayer.addWeapons(testUzi);
         assertEquals(2, testWeapons.size());
-        assertEquals(2, testWeaponNames.size());
-        assertTrue(testWeapons.contains(testUzi));
-        assertTrue(testWeaponNames.contains(testUzi.getName()));
+        assertTrue(testWeapons.containsValue(testUzi));
         RPG testRPG = new RPG();
         testPlayer.addWeapons(testRPG);
         assertEquals(3, testWeapons.size());
-        assertEquals(3, testWeaponNames.size());
-        assertTrue(testWeapons.contains(testRPG));
-        assertTrue(testWeaponNames.contains(testRPG.getName()));
+        assertTrue(testWeapons.containsValue(testRPG));
         testPlayer.addWeapons(testUzi);
         assertEquals(3, testWeapons.size());
-        assertEquals(3, testWeaponNames.size());
     }
 
     @Test
