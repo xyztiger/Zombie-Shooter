@@ -15,7 +15,6 @@ public class RPG extends Weapon {
         setCost(COST);
     }
 
-    @Override
     public int getInitialAmmo() {
         return MAXAMMO;
     }

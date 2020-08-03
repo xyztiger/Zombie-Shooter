@@ -14,9 +14,9 @@
       }
     },
     "currentWeapon": {
-      "ammo": 93,
-      "cost": 1,
-      "name": "Uzi"
+      "ammo": 490,
+      "cost": 10,
+      "name": "Pistol"
     },
     "posX": 8,
     "posY": 5
@@ -27,6 +27,6 @@
     "posY": 13
   },
   "score": {
-    "points": 5
+    "points": 6
   }
 }

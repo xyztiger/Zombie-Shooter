@@ -4,17 +4,21 @@ import model.*;
 
 import java.util.Scanner;
 
+// Represents the current state of the game; contains all necessary information for games to
+// be saved and loaded
 public class GameState {
     private Player player;
     private Zombie zombie;
     private Score score;
 
+    // EFFECTS: creates a new game with a new player, new zombie, and score of 0
     public GameState() {
         player = new Player();
         zombie = new Zombie();
         score = new Score();
     }
 
+    // setters and getters:
     public void savePlayer(Player p) {
         player = p;
     }

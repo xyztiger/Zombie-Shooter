@@ -66,6 +66,7 @@ public class Game {
 //        gameState.saveZombie(zombie);
     }
 
+    // EFFECTS: asks player if they would like to save current game, and if they really want to quit
     private boolean processQuit() {
         System.out.println("Would you like to save the game before you quit?");
         System.out.println("'S': Save and quit");
@@ -86,8 +87,8 @@ public class Game {
     }
 
     // MODIFIES: this
-    // EFFECTS: loads game from GAMES_FILE, if that file exists;
-    // otherwise initializes new game with default values
+    // EFFECTS: loads gameState from GAMES_FILE, if that file exists;
+    // otherwise initializes new gameState with default values
     private void loadGame() {
         try {
             game = new GsonBuilder().setPrettyPrinting().create();
@@ -113,6 +114,7 @@ public class Game {
         }
     }
 
+    // EFFECTS: saves the current gameState to GAMES_FILE to be loaded in the future
     private void saveGame() {
         try {
             Writer writer = new FileWriter(GAMES_FILE);
@@ -149,7 +151,7 @@ public class Game {
     }
 
     // MODIFIES: this
-    // EFFECTS: proccesses movement input in the main screen for the player
+    // EFFECTS: processes movement input in the main screen for the player
     private void processMovement(String movement) {
         try {
             switch (movement) {

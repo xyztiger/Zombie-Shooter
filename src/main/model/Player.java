@@ -108,8 +108,11 @@ public class Player extends Entity {
         if (!weapons.containsValue(choice)) {
             weapons.put(nextIndex, choice);
         } else {
-            Weapon weapon = weapons.get(choice);
-            weapon.setAmmo(weapon.getInitialAmmo());
+            for (Weapon weapon : weapons.values()) {
+                if (weapon.equals(choice)) {
+                    weapon.setAmmo(weapon.getInitialAmmo());
+                }
+            }
         }
     }
 

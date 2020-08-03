@@ -150,7 +150,8 @@ class PlayerTest {
         testPlayer.addWeapons(testRPG);
         assertEquals(3, testWeapons.size());
         assertTrue(testWeapons.containsValue(testRPG));
-        testPlayer.addWeapons(testUzi);
+        Uzi testUzi2 = new Uzi();
+        testPlayer.addWeapons(testUzi2);
         assertEquals(3, testWeapons.size());
     }
 

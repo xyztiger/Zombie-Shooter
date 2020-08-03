@@ -15,6 +15,17 @@ public class Weapon {
     private int ammo; // the weapon's current ammo count
     private int cost; // the number of points required to buy the weapon
     private String name; // the weapon's name
+    private static final int MAXAMMO = 0;
+
+    /*
+     * EFFECTS: creates a weapon with name set to "Weapon" and ammo
+     * set to 0 and cost set to 0
+     */
+    public Weapon() {
+        setName("Weapon");
+        setAmmo(MAXAMMO);
+        setCost(0);
+    }
 
     /*
      * MODIFIES: this
@@ -65,6 +76,7 @@ public class Weapon {
         return ammo;
     }
 
+    //EFFECTS: Overrides default equals() method to allow two weapon subtypes to be considered equal
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,6 +89,7 @@ public class Weapon {
         return name.equals(weapon.name);
     }
 
+    //EFFECTS: Overrides default hashCode() method to allow two weapon subtypes to have the same hashcode
     @Override
     public int hashCode() {
         return Objects.hash(name);
