@@ -15,6 +15,7 @@ public class Shotgun extends Weapon {
         setCost(COST);
     }
 
+    @Override
     public int getInitialAmmo() {
         return MAXAMMO;
     }

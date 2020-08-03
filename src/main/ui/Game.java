@@ -1,6 +1,5 @@
 package ui;
 
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import exceptions.BorderException;
 import exceptions.NoAmmoException;
@@ -9,10 +8,10 @@ import model.*;
 
 import java.io.*;
 import java.util.*;
-import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import persistence.GameState;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game {
@@ -21,7 +20,7 @@ public class Game {
     private Zombie zombie;
     private Score score;
     private Gson game;
-    private HashMap<String, Object> gameState;
+    private GameState gameState;
     private static final String GAMES_FILE = "./data/games.json";
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
@@ -38,6 +37,7 @@ public class Game {
     private void startGame() {
         boolean endGame = false;
         input = new Scanner(System.in);
+        gameState = new GameState();
         loadGame();
         while (!endGame) {
             displayMenu();
@@ -57,13 +57,13 @@ public class Game {
     // MODIFIES: this
     // EFFECTS: creates the player, a zombie, and the score
     private void init() {
+        System.out.println("Started new game!");
         player = new Player();
         zombie = new Zombie();
         score = new Score();
-        gameState = new HashMap<>();
-        gameState.put("player", player);
-        gameState.put("score", score);
-        gameState.put("zombies", zombie);
+//        gameState.savePlayer(player);
+//        gameState.saveScore(score);
+//        gameState.saveZombie(zombie);
     }
 
     private boolean processQuit() {
@@ -73,13 +73,14 @@ public class Game {
         System.out.println("'B': Go back to game");
         String command = input.next();
         command = command.toLowerCase();
-        if (command.equals("q")) {
-            return true;
-        } else if (command.equals("s")) {
-            saveGame();
-            return true;
-        } else if (command.equals("b")) {
-            return false;
+        switch (command) {
+            case "q":
+                return true;
+            case "s":
+                saveGame();
+                return true;
+            case "b":
+                return false;
         }
         return false;
     }
@@ -90,15 +91,24 @@ public class Game {
     private void loadGame() {
         try {
             game = new GsonBuilder().setPrettyPrinting().create();
-            gameState = new HashMap<>();
             JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
-            gameState = game.fromJson(reader, gameState.getClass());
-            reader.close();
-            player = (Player)gameState.get("player");
-            score = (Score)gameState.get("score");
-            zombie = (Zombie)gameState.get("zombies");
+            System.out.println("Continue from saved game or start a new game?");
+            System.out.println("'C': Continue");
+            System.out.println("'N': New game");
+            String command = input.next();
+            command = command.toLowerCase();
+            if (command.equals("c")) {
+                System.out.println("Loaded previous save:");
+                gameState = game.fromJson(reader, gameState.getClass());
+                reader.close();
+                player = gameState.loadPlayer();
+                zombie = gameState.loadZombie();
+                score = gameState.loadScore();
+            } else if (command.equals("n")) {
+                init();
+            }
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             init();
         }
     }
@@ -106,6 +116,9 @@ public class Game {
     private void saveGame() {
         try {
             Writer writer = new FileWriter(GAMES_FILE);
+            gameState.savePlayer(player);
+            gameState.saveZombie(zombie);
+            gameState.saveScore(score);
             game.toJson(gameState, writer);
             writer.close();
             System.out.println("Game saved to file " + GAMES_FILE);

@@ -11,7 +11,7 @@ import java.util.Objects;
  * all weapons can shoot and kill zombies by consuming ammo
  */
 
-public abstract class Weapon {
+public class Weapon {
     private int ammo; // the weapon's current ammo count
     private int cost; // the number of points required to buy the weapon
     private String name; // the weapon's name
@@ -61,7 +61,9 @@ public abstract class Weapon {
         return cost;
     }
 
-    public abstract int getInitialAmmo();
+    public int getInitialAmmo() {
+        return ammo;
+    }
 
     @Override
     public boolean equals(Object o) {

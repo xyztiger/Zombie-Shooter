@@ -15,6 +15,7 @@ public class Uzi extends Weapon {
         setCost(COST);
     }
 
+    @Override
     public int getInitialAmmo() {
         return MAXAMMO;
     }
