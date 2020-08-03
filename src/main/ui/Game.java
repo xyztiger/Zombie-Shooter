@@ -64,7 +64,6 @@ public class Game {
         gameState.put("player", player);
         gameState.put("score", score);
         gameState.put("zombies", zombie);
-        game = new GsonBuilder().setPrettyPrinting().create();
     }
 
     private boolean processQuit() {
@@ -86,17 +85,20 @@ public class Game {
     }
 
     // MODIFIES: this
-    // EFFECTS: loads accounts from ACCOUNTS_FILE, if that file exists;
-    // otherwise initializes accounts with default values
+    // EFFECTS: loads game from GAMES_FILE, if that file exists;
+    // otherwise initializes new game with default values
     private void loadGame() {
         try {
+            game = new GsonBuilder().setPrettyPrinting().create();
+            gameState = new HashMap<>();
             JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
             gameState = game.fromJson(reader, gameState.getClass());
             reader.close();
-            player = gameState.get("player");
-            score = gameState.get("score");
-            zombie = gameState.get("zombies");
+            player = (Player)gameState.get("player");
+            score = (Score)gameState.get("score");
+            zombie = (Zombie)gameState.get("zombies");
         } catch (Exception e) {
+//            e.printStackTrace();
             init();
         }
     }
