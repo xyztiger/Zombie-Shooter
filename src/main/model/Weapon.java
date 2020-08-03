@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.*;
+import exceptions.NoAmmoException;
 
 import java.util.Objects;
 
@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public abstract class Weapon {
     private int ammo; // the weapon's current ammo count
+    private int cost; // the number of points required to buy the weapon
     private String name; // the weapon's name
 
     /*
@@ -50,6 +51,14 @@ public abstract class Weapon {
 
     public int getAmmo() {
         return ammo;
+    }
+
+    public void setCost(int amount) {
+        cost = amount;
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     public abstract int getInitialAmmo();

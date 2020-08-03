@@ -1,0 +1,27 @@
+{
+  "score": {
+    "points": 1
+  },
+  "zombies": {
+    "alive": false,
+    "posX": 10,
+    "posY": 18
+  },
+  "player": {
+    "dir": "S",
+    "weapons": {
+      "1": {
+        "ammo": 494,
+        "cost": 10,
+        "name": "Pistol"
+      }
+    },
+    "currentWeapon": {
+      "ammo": 494,
+      "cost": 10,
+      "name": "Pistol"
+    },
+    "posX": 10,
+    "posY": 11
+  }
+}

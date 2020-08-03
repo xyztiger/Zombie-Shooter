@@ -37,6 +37,7 @@ public class Player extends Entity {
         posY = Stage.HEIGHT / 2;
 //        health = 100;
 //        alive = true;
+        setDirection("N");
         weapons = new HashMap<>();
         Weapon pistol = new Pistol();
         addWeapons(pistol);
@@ -106,6 +107,9 @@ public class Player extends Entity {
         int nextIndex = weapons.size() + 1;
         if (!weapons.containsValue(choice)) {
             weapons.put(nextIndex, choice);
+        } else {
+            Weapon weapon = weapons.get(choice);
+            weapon.setAmmo(weapon.getInitialAmmo());
         }
     }
 

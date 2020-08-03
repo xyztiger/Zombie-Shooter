@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.NotEnoughPointsException;
+
 public class Score {
     private int points;
 
@@ -7,8 +9,12 @@ public class Score {
         points = 0;
     }
 
-    public void spend(Integer points) {
-        this.points -= points;
+    public void spend(Integer amount) throws NotEnoughPointsException {
+        if (amount > points) {
+            throw new NotEnoughPointsException();
+        } else {
+            points -= amount;
+        }
     }
 
     public void increase(Integer points) {
