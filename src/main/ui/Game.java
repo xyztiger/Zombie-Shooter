@@ -1,12 +1,17 @@
 package ui;
 
+import com.google.gson.stream.JsonReader;
 import exceptions.BorderException;
+import exceptions.NoAmmoException;
+import exceptions.NotEnoughPointsException;
 import model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import persistence.GameState;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game {
@@ -14,6 +19,9 @@ public class Game {
     private Player player;
     private Zombie zombie;
     private Score score;
+    private Gson game;
+    private GameState gameState;
+    private static final String GAMES_FILE = "./data/games.json";
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
     // EFFECTS: runs the game
@@ -29,13 +37,14 @@ public class Game {
     private void startGame() {
         boolean endGame = false;
         input = new Scanner(System.in);
-        init();
+        gameState = new GameState();
+        loadGame();
         while (!endGame) {
             displayMenu();
             String command = input.next();
             command = command.toLowerCase();
             if (command.equals("q")) {
-                endGame = true;
+                endGame = processQuit();
             }
             processMainScreen(command);
             if (!zombie.getAlive()) {
@@ -48,9 +57,76 @@ public class Game {
     // MODIFIES: this
     // EFFECTS: creates the player, a zombie, and the score
     private void init() {
+        System.out.println("Started new game!");
         player = new Player();
         zombie = new Zombie();
         score = new Score();
+//        gameState.savePlayer(player);
+//        gameState.saveScore(score);
+//        gameState.saveZombie(zombie);
+    }
+
+    // EFFECTS: asks player if they would like to save current game, and if they really want to quit
+    private boolean processQuit() {
+        System.out.println("Would you like to save the game before you quit?");
+        System.out.println("'S': Save and quit");
+        System.out.println("'Q': Quit without saving");
+        System.out.println("'B': Go back to game");
+        String command = input.next();
+        command = command.toLowerCase();
+        switch (command) {
+            case "q":
+                return true;
+            case "s":
+                saveGame();
+                return true;
+            case "b":
+                return false;
+        }
+        return false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads gameState from GAMES_FILE, if that file exists;
+    // otherwise initializes new gameState with default values
+    private void loadGame() {
+        try {
+            game = new GsonBuilder().setPrettyPrinting().create();
+            JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
+            System.out.println("Continue from saved game or start a new game?");
+            System.out.println("'C': Continue");
+            System.out.println("'N': New game");
+            String command = input.next();
+            command = command.toLowerCase();
+            if (command.equals("c")) {
+                System.out.println("Loaded previous save:");
+                gameState = game.fromJson(reader, gameState.getClass());
+                reader.close();
+                player = gameState.loadPlayer();
+                zombie = gameState.loadZombie();
+                score = gameState.loadScore();
+            } else if (command.equals("n")) {
+                init();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            init();
+        }
+    }
+
+    // EFFECTS: saves the current gameState to GAMES_FILE to be loaded in the future
+    private void saveGame() {
+        try {
+            Writer writer = new FileWriter(GAMES_FILE);
+            gameState.savePlayer(player);
+            gameState.saveZombie(zombie);
+            gameState.saveScore(score);
+            game.toJson(gameState, writer);
+            writer.close();
+            System.out.println("Game saved to file " + GAMES_FILE);
+        } catch (IOException e) {
+            System.out.println("Saving failed!");
+        }
     }
 
     // EFFECTS: shows the current score on screen
@@ -75,7 +151,7 @@ public class Game {
     }
 
     // MODIFIES: this
-    // EFFECTS: proccesses movement input in the main screen for the player
+    // EFFECTS: processes movement input in the main screen for the player
     private void processMovement(String movement) {
         try {
             switch (movement) {
@@ -129,6 +205,8 @@ public class Game {
      *         if a player purchases a gun that they do not already have,
      *         the gun is added to the player's list of available weapons
      *         if the player already has the gun, ammo is added instead
+     *
+     *         if the player does not have enough points, nothing is bought and a message is thrown
      */
     private void showShop() {
         String command = "";
@@ -148,24 +226,36 @@ public class Game {
             command = input.next();
             command = command.toLowerCase();
 
-            processBuyGun(command);
+            try {
+                processBuyGun(command);
+            } catch (NotEnoughPointsException nepe) {
+                System.out.println("Not enough points! Kill zombies to get more points!");
+            }
         }
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input and adds the selected gun to the player's list of available guns
-    private void processBuyGun(String choice) {
+    private void processBuyGun(String choice) throws NotEnoughPointsException {
+        Pistol pistol = new Pistol();
         Uzi uzi = new Uzi();
         RPG rpg = new RPG();
         Shotgun shotgun = new Shotgun();
         switch (choice) {
+            case "p":
+                score.spend(pistol.getCost());
+                player.addWeapons(pistol);
+                break;
             case "u":
+                score.spend(uzi.getCost());
                 player.addWeapons(uzi);
                 break;
             case "r":
+                score.spend(rpg.getCost());
                 player.addWeapons(rpg);
                 break;
             case "s":
+                score.spend(shotgun.getCost());
                 player.addWeapons(shotgun);
                 break;
         }
@@ -247,7 +337,7 @@ public class Game {
             } else {
                 System.out.println("Missed! Try again!");
             }
-        } catch (Exception nae) {
+        } catch (NoAmmoException nae) {
             System.out.println("Current weapon out of ammo!");
         }
     }

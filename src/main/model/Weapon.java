@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.*;
+import exceptions.NoAmmoException;
 
 import java.util.Objects;
 
@@ -11,9 +11,21 @@ import java.util.Objects;
  * all weapons can shoot and kill zombies by consuming ammo
  */
 
-public abstract class Weapon {
+public class Weapon {
     private int ammo; // the weapon's current ammo count
+    private int cost; // the number of points required to buy the weapon
     private String name; // the weapon's name
+    private static final int MAXAMMO = 0;
+
+    /*
+     * EFFECTS: creates a weapon with name set to "Weapon" and ammo
+     * set to 0 and cost set to 0
+     */
+    public Weapon() {
+        setName("Weapon");
+        setAmmo(MAXAMMO);
+        setCost(0);
+    }
 
     /*
      * MODIFIES: this
@@ -52,8 +64,19 @@ public abstract class Weapon {
         return ammo;
     }
 
-    public abstract int getInitialAmmo();
+    public void setCost(int amount) {
+        cost = amount;
+    }
 
+    public int getCost() {
+        return cost;
+    }
+
+    public int getInitialAmmo() {
+        return ammo;
+    }
+
+    //EFFECTS: Overrides default equals() method to allow two weapon subtypes to be considered equal
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -66,6 +89,7 @@ public abstract class Weapon {
         return name.equals(weapon.name);
     }
 
+    //EFFECTS: Overrides default hashCode() method to allow two weapon subtypes to have the same hashcode
     @Override
     public int hashCode() {
         return Objects.hash(name);

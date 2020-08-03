@@ -1,0 +1,32 @@
+{
+  "player": {
+    "dir": "S",
+    "weapons": {
+      "1": {
+        "ammo": 495,
+        "cost": 10,
+        "name": "Pistol"
+      },
+      "2": {
+        "ammo": 93,
+        "cost": 1,
+        "name": "Uzi"
+      }
+    },
+    "currentWeapon": {
+      "ammo": 490,
+      "cost": 10,
+      "name": "Pistol"
+    },
+    "posX": 8,
+    "posY": 5
+  },
+  "zombie": {
+    "alive": true,
+    "posX": 12,
+    "posY": 13
+  },
+  "score": {
+    "points": 6
+  }
+}
