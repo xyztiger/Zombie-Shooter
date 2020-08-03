@@ -53,6 +53,8 @@ public class WeaponTest {
     void testEqualsAndHashCode() {
         assertTrue(testPistol1.equals(testPistol2));
         assertTrue(testPistol1.equals(testPistol1));
+        assertFalse(testWeapon1.equals(null));
+        assertFalse(testWeapon1.equals(1));
         assertEquals(testPistol1.hashCode(), testPistol2.hashCode());
         assertFalse(testPistol1.equals(testUzi));
         assertNotEquals(testPistol1.hashCode(), testUzi.hashCode());
