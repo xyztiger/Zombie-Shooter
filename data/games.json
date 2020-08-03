@@ -9,19 +9,19 @@
       }
     },
     "currentWeapon": {
-      "ammo": 492,
+      "ammo": 490,
       "cost": 10,
       "name": "Pistol"
     },
-    "posX": 19,
-    "posY": 3
+    "posX": 8,
+    "posY": 5
   },
   "zombie": {
     "alive": true,
-    "posX": 8,
-    "posY": 12
+    "posX": 12,
+    "posY": 13
   },
   "score": {
-    "points": 4
+    "points": 6
   }
 }
