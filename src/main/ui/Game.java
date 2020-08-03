@@ -12,6 +12,7 @@ public class Game {
     private Scanner input;
     private Player player;
     private Zombie zombie;
+    private Score score;
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
     // EFFECTS: runs the game
@@ -44,10 +45,16 @@ public class Game {
     }
 
     // MODIFIES: this
-    // EFFECTS: creates the player and a zombie
+    // EFFECTS: creates the player, a zombie, and the score
     private void init() {
         player = new Player();
         zombie = new Zombie();
+        score = new Score();
+    }
+
+    // EFFECTS: shows the current score on screen
+    private void showScore() {
+        System.out.println("Points: " + score.getPoints());
     }
 
     // MODIFIES: this
@@ -96,6 +103,7 @@ public class Game {
 
     // EFFECTS: displays list of information the user needs to know
     private void displayMenu() {
+        showScore();
         System.out.println("current weapon: " + player.getCurrentWeaponName());
         System.out.println("current weapon ammo: " + player.getCurrentWeapon().getAmmo());
         System.out.println("current position: " + player.getPosition());
@@ -108,30 +116,31 @@ public class Game {
     private void displayInstructions() {
         System.out.println("INSTRUCTIONS:");
         System.out.println("use 'WASD' to move");
+        System.out.println("press 'J' to shoot!");
         System.out.println("press 'C' to choose a weapon");
         System.out.println("press 'B' to buy new weapons");
         System.out.println("press 'Q' to quit game");
-        System.out.println("press 'J' to shoot!");
-
     }
 
     /*
      * MODIFIES: this
-     * EFFECTS: displays the shop with available guns the player can purchase
+     * EFFECTS: displays the shop with available guns the player can purchase with points
      *         if a player purchases a gun that they do not already have,
      *         the gun is added to the player's list of available weapons
+     *         if the player already has the gun, ammo is added instead
      */
     private void showShop() {
         String command = "";
 
         while (!command.equals("q")) {
+            showScore();
             System.out.println("Current weapons:");
             for (Weapon w : player.getWeapons()) {
                 System.out.println(w.getName() + ": " + w.getAmmo());
             }
-            System.out.println("press 'U' to buy Uzi");
-            System.out.println("press 'S' to buy Shotgun");
-            System.out.println("press 'R' to buy RPG");
+            System.out.println("press 'U' to buy Uzi/ammo");
+            System.out.println("press 'S' to buy Shotgun/ammo");
+            System.out.println("press 'R' to buy RPG/ammo");
             System.out.println("press 'Q' to exit buy gun menu");
 
             command = input.next();
@@ -223,13 +232,14 @@ public class Game {
     /*
      * MODIFIES: this
      * EFFECTS: shoots the player's current weapon in the player's current direction;
-     *          if a zombie is hit, the zombie dies and a new one spawns
+     *          if a zombie is hit, the score increases by 1, the zombie dies and a new one spawns
      */
     private void processShootGun() {
         Weapon currentWeapon = player.getCurrentWeapon();
         try {
             currentWeapon.shoot();
             if (detectHit()) {
+                score.increase(1);
                 zombie.die();
                 System.out.println("Killed a zombie! Here comes another one!");
             } else {

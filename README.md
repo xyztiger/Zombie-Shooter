@@ -28,3 +28,5 @@ This project is interesting to me because:
 - As a user, I want to be able to keep track of my ammo
 - As a user, I want to be able to buy and add ammo to my ammo reservoir
 - As a user, I want to be able to see my score increase when I kill zombies
+- As a user, I want to be able to save my current game state to file.
+- As a user, I want to be able to optionally load my previous game state when I run the program.
