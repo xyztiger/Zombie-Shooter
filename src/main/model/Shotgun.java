@@ -3,7 +3,7 @@ package model;
 // A specific type of weapon which the player can buy; low ammo capacity
 public class Shotgun extends Weapon {
     private static final int MAXAMMO = 50; // the shotguns's ammo capacity
-    public static final int COST = 0; // amount of points needed to purchase uzi
+    public static final int COST = 30; // amount of points needed to purchase uzi
 
     /*
      * EFFECTS: creates a Shotgun with name set to "Shotgun" and ammo

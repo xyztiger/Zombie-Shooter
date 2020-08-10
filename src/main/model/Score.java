@@ -8,7 +8,7 @@ public class Score {
     // MODIFIES: this
     // EFFECTS: creates a new score object with points set to 0
     public Score() {
-        points = 0;
+        points = 90;
     }
 
     // MODIFIES: this

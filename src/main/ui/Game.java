@@ -139,7 +139,7 @@ public class Game {
     // EFFECTS: processes user input for the main screen
     private void processMainScreen(String command) {
         if (command.equals("b")) {
-            showShop();
+            proccessShop();
         } else if (command.equals("c")) {
             showWeapons();
         } else if (command.equals("i")) {
@@ -149,6 +149,13 @@ public class Game {
         } else if (command.equals("j")) {
             processShootGun();
         }
+    }
+
+    private void proccessShop() {
+        shopPanel = new ShopPanel(score, player);
+        this.score = shopPanel.getScore();
+        this.player = shopPanel.getPlayer();
+        showWeapons();
     }
 
     // MODIFIES: this
@@ -211,7 +218,7 @@ public class Game {
      */
     private void showShop() {
         String command = "";
-        shopPanel = new ShopPanel(score);
+//        shopPanel = new ShopPanel(score);
 
         while (!command.equals("q")) {
             command = shopPanel.getPressed().toLowerCase();

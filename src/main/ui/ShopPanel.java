@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import exceptions.NotEnoughPointsException;
 import model.*;
 
 public class ShopPanel implements ActionListener {
@@ -20,6 +22,8 @@ public class ShopPanel implements ActionListener {
     private JButton quit;
     private JButton pressed;
     private Score score;
+    private Player player;
+    private boolean ended;
 
     private static final ImageIcon PISTOL_IMG = new ImageIcon("./data/images/pistol.jpg");
     private static final ImageIcon UZI_IMG = new ImageIcon("./data/images/uzi.jpg");
@@ -32,11 +36,13 @@ public class ShopPanel implements ActionListener {
         frame = new JFrame();
         shopLabel = new JLabel("Click to buy new weapons/refill ammo!");
         this.score = score;
+        this.player = player;
+        this.ended = false;
         scoreLabel = new JLabel("Available points: " + this.score.getPoints());
         panel = new JPanel();
         panel.add(shopLabel);
         panel.add(scoreLabel);
-        panel.setBorder(BorderFactory.createEmptyBorder(200, 200, 200, 200));
+        panel.setBorder(BorderFactory.createEmptyBorder(200, 800, 200, 800));
         panel.setLayout(new GridLayout(0, 1));
         initializeButtons(panel);
 
@@ -49,9 +55,9 @@ public class ShopPanel implements ActionListener {
     }
 
     private void initializeButtons(JPanel panel) {
-        buyPistol = addButton("Buy pistol/ammo: " + RPG.COST, PISTOL_IMG);
-        buyUzi = addButton("Buy uzi/ammo: " + RPG.COST, UZI_IMG);
-        buyShotgun = addButton("Buy shotgun/ammo: " + RPG.COST, SHOTGUN_IMG);
+        buyPistol = addButton("Buy pistol/ammo: " + Pistol.COST, PISTOL_IMG);
+        buyUzi = addButton("Buy uzi/ammo: " + Uzi.COST, UZI_IMG);
+        buyShotgun = addButton("Buy shotgun/ammo: " + Shotgun.COST, SHOTGUN_IMG);
         buyRPG = addButton("Buy RPG/ammo: " + RPG.COST, RPG_IMG);
         quit = addButton("Back to game", null);
 
@@ -83,6 +89,27 @@ public class ShopPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         pressed = (JButton) e.getSource();
+        try {
+            if (buyPistol.equals(pressed)) {
+                this.score.spend(Pistol.COST);
+                this.player.addWeapons(new Pistol());
+            } else if (buyUzi.equals(pressed)) {
+                this.score.spend(Uzi.COST);
+                this.player.addWeapons(new Uzi());
+            } else if (buyShotgun.equals(pressed)) {
+                this.score.spend(Shotgun.COST);
+                this.player.addWeapons(new Shotgun());
+            } else if (buyRPG.equals(pressed)) {
+                this.score.spend(RPG.COST);
+                this.player.addWeapons(new RPG());
+            } else if (quit.equals(pressed)) {
+                ended = true;
+                frame.dispose();
+            }
+            this.scoreLabel.setText("Available points: " + score.getPoints());
+        } catch (NotEnoughPointsException nepe) {
+            this.scoreLabel.setText("Not enough points for that weapon! Available points: " + score.getPoints());
+        }
     }
 
     public String getPressed() {
@@ -99,5 +126,17 @@ public class ShopPanel implements ActionListener {
             return "Q";
         }
         return "";
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public Score getScore() {
+        return this.score;
+    }
+
+    public boolean getEnded() {
+        return ended;
     }
 }
