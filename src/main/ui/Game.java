@@ -21,6 +21,7 @@ public class Game {
     private Score score;
     private Gson game;
     private GameState gameState;
+    private ShopPanel shopPanel;
     private static final String GAMES_FILE = "./data/games.json";
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
@@ -210,28 +211,38 @@ public class Game {
      */
     private void showShop() {
         String command = "";
+        shopPanel = new ShopPanel(score);
 
         while (!command.equals("q")) {
-            showScore();
-            System.out.println("Current weapons:");
-            HashMap<Integer, Weapon> weapons = player.getWeapons();
-            for (Weapon w : weapons.values()) {
-                System.out.println(w.getName() + ": " + w.getAmmo());
-            }
-            System.out.println("press 'U' to buy Uzi/ammo");
-            System.out.println("press 'S' to buy Shotgun/ammo");
-            System.out.println("press 'R' to buy RPG/ammo");
-            System.out.println("press 'Q' to exit buy gun menu");
-
-            command = input.next();
-            command = command.toLowerCase();
-
+            command = shopPanel.getPressed().toLowerCase();
             try {
                 processBuyGun(command);
             } catch (NotEnoughPointsException nepe) {
                 System.out.println("Not enough points! Kill zombies to get more points!");
             }
         }
+
+//        while (!command.equals("q")) {
+//            showScore();
+//            System.out.println("Current weapons:");
+//            HashMap<Integer, Weapon> weapons = player.getWeapons();
+//            for (Weapon w : weapons.values()) {
+//                System.out.println(w.getName() + ": " + w.getAmmo());
+//            }
+//            System.out.println("press 'U' to buy Uzi/ammo");
+//            System.out.println("press 'S' to buy Shotgun/ammo");
+//            System.out.println("press 'R' to buy RPG/ammo");
+//            System.out.println("press 'Q' to exit buy gun menu");
+//
+//            command = input.next();
+//            command = command.toLowerCase();
+//
+//            try {
+//                processBuyGun(command);
+//            } catch (NotEnoughPointsException nepe) {
+//                System.out.println("Not enough points! Kill zombies to get more points!");
+//            }
+//        }
     }
 
     // MODIFIES: this
@@ -356,6 +367,10 @@ public class Game {
             default:
                 return false;
         }
+    }
+
+    public Player getPlayer() {
+        return this.player;
     }
 
 }

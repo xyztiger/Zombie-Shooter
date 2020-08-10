@@ -11,6 +11,11 @@
         "ammo": 93,
         "cost": 1,
         "name": "Uzi"
+      },
+      "3": {
+        "ammo": 500,
+        "cost": 1,
+        "name": "RPG"
       }
     },
     "currentWeapon": {
@@ -27,6 +32,6 @@
     "posY": 13
   },
   "score": {
-    "points": 5
+    "points": 4
   }
 }
