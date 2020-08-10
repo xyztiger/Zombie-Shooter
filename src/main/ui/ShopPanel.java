@@ -1,6 +1,5 @@
 package ui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,12 +8,12 @@ import java.awt.event.ActionListener;
 import exceptions.NotEnoughPointsException;
 import model.*;
 
-public class ShopPanel implements ActionListener {
+public class ShopPanel extends ButtonPanel {
 
     private JLabel shopLabel;
     private JLabel scoreLabel;
     private JFrame frame;
-    private JPanel panel;
+    private JPanel shopPanel;
     private JButton buyPistol;
     private JButton buyUzi;
     private JButton buyShotgun;
@@ -24,6 +23,7 @@ public class ShopPanel implements ActionListener {
     private Score score;
     private Player player;
     private boolean ended;
+    private Game game;
 
     private static final ImageIcon PISTOL_IMG = new ImageIcon("./data/images/pistol.jpg");
     private static final ImageIcon UZI_IMG = new ImageIcon("./data/images/uzi.jpg");
@@ -31,23 +31,23 @@ public class ShopPanel implements ActionListener {
     private static final ImageIcon RPG_IMG = new ImageIcon("./data/images/RPG.jpg");
 
 
-    public ShopPanel(Score score, Player player) {
+    public ShopPanel(Game game) {
 
         frame = new JFrame();
         shopLabel = new JLabel("Click to buy new weapons/refill ammo!");
-        this.score = score;
-        this.player = player;
+        this.game = game;
+        this.score = this.game.getScore();
+        this.player = this.game.getPlayer();
         this.ended = false;
         scoreLabel = new JLabel("Available points: " + this.score.getPoints());
-        panel = new JPanel();
-        panel.add(shopLabel);
-        panel.add(scoreLabel);
-        panel.setBorder(BorderFactory.createEmptyBorder(200, 800, 200, 800));
-        panel.setLayout(new GridLayout(0, 1));
-        initializeButtons(panel);
+        shopPanel = new JPanel();
+        shopPanel.add(shopLabel);
+        shopPanel.add(scoreLabel);
+        shopPanel.setBorder(BorderFactory.createEmptyBorder(200, 800, 200, 800));
+        shopPanel.setLayout(new GridLayout(0, 1));
+        initializeButtons(shopPanel);
 
-
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(shopPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Weapon Shop");
         frame.pack();
@@ -68,24 +68,6 @@ public class ShopPanel implements ActionListener {
         panel.add(quit);
     }
 
-    private JButton addButton(String label, ImageIcon icon) {
-        JButton button = new JButton(label);
-        button.addActionListener(this);
-        button.setBounds(0, 200, 80, 80);
-        try {
-            button.setIcon(fitToButton(icon));
-        } catch (Exception e) {
-            return button;
-        }
-        return button;
-    }
-
-    private Icon fitToButton(ImageIcon icon) {
-        Image img = icon.getImage();
-        Image resized = img.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-        return new ImageIcon(resized);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         pressed = (JButton) e.getSource();
@@ -103,12 +85,13 @@ public class ShopPanel implements ActionListener {
                 this.score.spend(RPG.COST);
                 this.player.addWeapons(new RPG());
             } else if (quit.equals(pressed)) {
-                ended = true;
+                System.out.println("Thanks for shopping!");
+                game.displayMenu();
                 frame.dispose();
             }
             this.scoreLabel.setText("Available points: " + score.getPoints());
         } catch (NotEnoughPointsException nepe) {
-            this.scoreLabel.setText("Not enough points for that weapon! Available points: " + score.getPoints());
+            this.scoreLabel.setText("<html>Not enough points! <br/>Available points: " + score.getPoints() + "</html>");
         }
     }
 

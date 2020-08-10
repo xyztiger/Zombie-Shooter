@@ -6,6 +6,7 @@ import exceptions.NoAmmoException;
 import exceptions.NotEnoughPointsException;
 import model.*;
 
+import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
@@ -13,8 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import persistence.GameState;
 
+import javax.swing.*;
+
 // A game where a player controls a character to move and shoot zombies
-public class Game {
+public class Game extends JFrame implements KeyListener {
     private Scanner input;
     private Player player;
     private Zombie zombie;
@@ -22,6 +25,9 @@ public class Game {
     private Gson game;
     private GameState gameState;
     private ShopPanel shopPanel;
+    private GamePanel gamePanel;
+    private ChoosePanel choosePanel;
+    private JFrame gameFrame;
     private static final String GAMES_FILE = "./data/games.json";
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
@@ -41,6 +47,8 @@ public class Game {
         gameState = new GameState();
         loadGame();
         while (!endGame) {
+            initGamePanel(this);
+            initKeyListener();
             displayMenu();
             String command = input.next();
             command = command.toLowerCase();
@@ -53,6 +61,33 @@ public class Game {
             }
         }
         System.out.println("See you next time!");
+    }
+
+    private void initGamePanel(Game panel) {
+        gamePanel = new GamePanel(this);
+        add(gamePanel);
+        setVisible(true);
+        setFocusable(true);
+        requestFocusInWindow();
+    }
+
+    private void initKeyListener() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                processMovement(String.valueOf(e.getKeyChar()));
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     // MODIFIES: this
@@ -138,24 +173,34 @@ public class Game {
     // MODIFIES: this
     // EFFECTS: processes user input for the main screen
     private void processMainScreen(String command) {
-        if (command.equals("b")) {
-            proccessShop();
-        } else if (command.equals("c")) {
-            showWeapons();
-        } else if (command.equals("i")) {
-            displayInstructions();
-        } else if (MOVEMENTS.contains(command)) {
-            processMovement(command);
-        } else if (command.equals("j")) {
-            processShootGun();
+        switch (command) {
+            case "b":
+                proccessShop();
+                break;
+            case "c":
+                processChooseWeapon();
+                break;
+            case "i":
+                displayInstructions();
+//        } else if (MOVEMENTS.contains(command)) {
+//            processMovement(command);
+                break;
+            case "j":
+                processShootGun();
+                break;
         }
     }
 
     private void proccessShop() {
-        shopPanel = new ShopPanel(score, player);
+        shopPanel = new ShopPanel(this);
         this.score = shopPanel.getScore();
         this.player = shopPanel.getPlayer();
-        showWeapons();
+//        showWeapons();
+    }
+
+    private void processChooseWeapon() {
+        choosePanel = new ChoosePanel(this);
+        this.player = choosePanel.getPlayer();
     }
 
     // MODIFIES: this
@@ -187,7 +232,7 @@ public class Game {
     }
 
     // EFFECTS: displays list of information the user needs to know
-    private void displayMenu() {
+    public void displayMenu() {
         showScore();
         System.out.println("current weapon: " + player.getCurrentWeaponName());
         System.out.println("current weapon ammo: " + player.getCurrentWeapon().getAmmo());
@@ -281,52 +326,53 @@ public class Game {
 
     // MODIFIES: this
     // EFFECTS: shows the list of available guns, prompts the player to choose an available gun
-    private void showWeapons() {
-        int index = 0;
-        String command = "";
-
-        while (command.equals("")) {
-            System.out.println("Press number keys to select weapon:");
-            HashMap<Integer, Weapon> weapons = player.getWeapons();
-            for (Weapon w : weapons.values()) {
-                index++;
-                System.out.println(index + ": " + w.getName());
-            }
-
-            command = input.next();
-            command = command.toLowerCase();
-
-            if (!processChooseWeapon(command)) {
-                showWeapons();
-            }
-        }
-    }
+//    private void showWeapons() {
+//        int index = 0;
+//        String command = "";
+//
+//        while (command.equals("")) {
+//            new ChoosePanel(this.player);
+//            System.out.println("Press number keys to select weapon:");
+//            HashMap<Integer, Weapon> weapons = player.getWeapons();
+//            for (Weapon w : weapons.values()) {
+//                index++;
+//                System.out.println(index + ": " + w.getName());
+//            }
+//
+//            command = input.next();
+//            command = command.toLowerCase();
+//
+//            if (!processChooseWeapon(command)) {
+//                showWeapons();
+//            }
+//        }
+//    }
 
     // MODIFIES: this
     // EFFECTS: processes user input to change the player's currently selected weapon
-    private boolean processChooseWeapon(String choice) {
-        if (checkValidIndex(choice)) {
-            HashMap<Integer, Weapon> weapons = player.getWeapons();
-            switch (choice) {
-                case "1":
-                    player.setCurrentWeapon(weapons.get(1));
-                    break;
-                case "2":
-                    player.setCurrentWeapon(weapons.get(2));
-                    break;
-                case "3":
-                    player.setCurrentWeapon(weapons.get(3));
-                    break;
-                case "4":
-                    player.setCurrentWeapon(weapons.get(4));
-                    break;
-            }
-            System.out.println("Now using the " + player.getCurrentWeaponName() + "!");
-            return true;
-        }
-        System.out.println("No weapon at that index! Please choose from one of the weapons below:");
-        return false;
-    }
+//    private boolean processChooseWeapon(String choice) {
+//        if (checkValidIndex(choice)) {
+//            HashMap<Integer, Weapon> weapons = player.getWeapons();
+//            switch (choice) {
+//                case "1":
+//                    player.setCurrentWeapon(weapons.get(1));
+//                    break;
+//                case "2":
+//                    player.setCurrentWeapon(weapons.get(2));
+//                    break;
+//                case "3":
+//                    player.setCurrentWeapon(weapons.get(3));
+//                    break;
+//                case "4":
+//                    player.setCurrentWeapon(weapons.get(4));
+//                    break;
+//            }
+//            System.out.println("Now using the " + player.getCurrentWeaponName() + "!");
+//            return true;
+//        }
+//        System.out.println("No weapon at that index! Please choose from one of the weapons below:");
+//        return false;
+//    }
 
     // EFFECTS: checks if the user's input for selecting an available gun was valid
     private boolean checkValidIndex(String choice) {
@@ -380,4 +426,53 @@ public class Game {
         return this.player;
     }
 
+    public Zombie getZombie() {
+        return this.zombie;
+    }
+
+    public Score getScore() {
+        return this.score;
+    }
+
+    /**
+     * Invoked when a key has been typed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key typed event.
+     *
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    /**
+     * Invoked when a key has been pressed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key pressed event.
+     *
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    /**
+     * Invoked when a key has been released.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key released event.
+     *
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+//    /*
+//     * A key handler to respond to key events
+//     */
+//    private class KeyHandler extends KeyAdapter {
+//        @Override
+//        public void keyPressed(KeyEvent e) {
+//            Game.keyPressed(e.getKeyCode());
+//        }
+//    }
 }

@@ -13,7 +13,7 @@
         "name": "Uzi"
       },
       "3": {
-        "ammo": 500,
+        "ammo": 15,
         "cost": 1,
         "name": "RPG"
       }

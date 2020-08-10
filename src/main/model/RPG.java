@@ -2,7 +2,7 @@ package model;
 
 // A specific type of weapon which the player can buy; very low ammo capacity
 public class RPG extends Weapon {
-    private static final int MAXAMMO = 500; // the RPG's ammo capacity
+    private static final int MAXAMMO = 20; // the RPG's ammo capacity
     public static final int COST = 50; // amount of points needed to purchase the RPG
 
     /*
