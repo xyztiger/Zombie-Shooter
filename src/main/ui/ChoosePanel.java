@@ -28,10 +28,11 @@ public class ChoosePanel extends ButtonPanel {
     private static final ImageIcon SHOTGUN_IMG = new ImageIcon("./data/images/shotgun.jpg");
     private static final ImageIcon RPG_IMG = new ImageIcon("./data/images/RPG.jpg");
 
+    // EFFECTS: creates a new panel for player to choose weapons
     public ChoosePanel(Game game) {
 
         frame = new JFrame();
-        chooseLabel = new JLabel("Click to buy new weapons/refill ammo!");
+        chooseLabel = new JLabel("Choose your weapon!");
         this.game = game;
         this.player = this.game.getPlayer();
         this.ended = false;
@@ -46,6 +47,8 @@ public class ChoosePanel extends ButtonPanel {
         frame.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initiates the panel
     private void initChoosePanel() {
         choosePanel = new JPanel();
         choosePanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
@@ -53,6 +56,8 @@ public class ChoosePanel extends ButtonPanel {
         buttons = new ArrayList<>();
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes the buttons
     private void initializeButtons(JPanel panel) {
         for (Weapon w : player.getWeapons().values()) {
             switch (w.getName()) {
@@ -80,6 +85,7 @@ public class ChoosePanel extends ButtonPanel {
     /**
      * Invoked when an action occurs.
      */
+    // EFFECTS: processes user input
     @Override
     public void actionPerformed(ActionEvent e) {
         pressed = (JButton) e.getSource();
@@ -99,6 +105,8 @@ public class ChoosePanel extends ButtonPanel {
         game.displayMenu();
     }
 
+    // MODIFIES: this
+    // EFFECTS: changes the player's current weapon
     private void setWeapon(String name) {
         for (Weapon w : player.getWeapons().values()) {
             if (w.getName().equals(name)) {

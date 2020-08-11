@@ -31,6 +31,7 @@ public class ShopPanel extends ButtonPanel {
     private static final ImageIcon RPG_IMG = new ImageIcon("./data/images/RPG.jpg");
 
 
+    // EFFECTS: constructs new shop panel
     public ShopPanel(Game game) {
 
         frame = new JFrame();
@@ -54,6 +55,8 @@ public class ShopPanel extends ButtonPanel {
         frame.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes the buttons for the panel
     private void initializeButtons(JPanel panel) {
         buyPistol = addButton("Buy pistol/ammo: " + Pistol.COST, PISTOL_IMG);
         buyUzi = addButton("Buy uzi/ammo: " + Uzi.COST, UZI_IMG);
@@ -68,6 +71,8 @@ public class ShopPanel extends ButtonPanel {
         panel.add(quit);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     @Override
     public void actionPerformed(ActionEvent e) {
         pressed = (JButton) e.getSource();
@@ -95,21 +100,21 @@ public class ShopPanel extends ButtonPanel {
         }
     }
 
-    public String getPressed() {
-        if (buyPistol.equals(pressed)) {
-            return "P";
-        } else if (buyUzi.equals(pressed)) {
-            return "U";
-        } else if (buyShotgun.equals(pressed)) {
-            return "S";
-        } else if (buyRPG.equals(pressed)) {
-            return "R";
-        } else if (quit.equals(pressed)) {
-            frame.dispose();
-            return "Q";
-        }
-        return "";
-    }
+//    public String getPressed() {
+//        if (buyPistol.equals(pressed)) {
+//            return "P";
+//        } else if (buyUzi.equals(pressed)) {
+//            return "U";
+//        } else if (buyShotgun.equals(pressed)) {
+//            return "S";
+//        } else if (buyRPG.equals(pressed)) {
+//            return "R";
+//        } else if (quit.equals(pressed)) {
+//            frame.dispose();
+//            return "Q";
+//        }
+//        return "";
+//    }
 
     public Player getPlayer() {
         return this.player;
@@ -119,7 +124,4 @@ public class ShopPanel extends ButtonPanel {
         return this.score;
     }
 
-    public boolean getEnded() {
-        return ended;
-    }
 }

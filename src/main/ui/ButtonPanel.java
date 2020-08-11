@@ -5,8 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Abstract class for all panels which have buttons
 public abstract class ButtonPanel implements ActionListener {
 
+    // EFFECTS: returns a button with given label and icon
     public JButton addButton(String label, ImageIcon icon) {
         JButton button = new JButton(label);
         button.addActionListener(this);
@@ -19,6 +21,15 @@ public abstract class ButtonPanel implements ActionListener {
         return button;
     }
 
+    // EFFECTS: returns a button with given label
+    public JButton addButton(String label) {
+        JButton button = new JButton(label);
+        button.addActionListener(this);
+        button.setBounds(0, 200, 80, 80);
+        return button;
+    }
+
+    // EFFECTS: fits the given icon to the size of the button
     public Icon fitToButton(ImageIcon icon) {
         Image img = icon.getImage();
         Image resized = img.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
