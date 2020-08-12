@@ -34,8 +34,8 @@ public class Game extends JFrame implements KeyListener {
 
     // EFFECTS: runs the game
     public Game() {
-//        homeScreen();
-        startGame();
+        homeScreen();
+//        startGame();
     }
 
     /*
@@ -46,8 +46,8 @@ public class Game extends JFrame implements KeyListener {
     public void startGame() {
         boolean endGame = false;
         input = new Scanner(System.in);
-        gameState = new GameState();
-        loadGame();
+//        gameState = new GameState();
+//        loadGame();
 //        loadGameState(loadPanel.getGameState());
 //        loadGame(loadPanel.choice());
         while (!endGame) {
@@ -69,7 +69,6 @@ public class Game extends JFrame implements KeyListener {
 
     private void homeScreen() {
         loadPanel = new LoadPanel(this);
-        startGame();
     }
 
     // MODIFIES: this
@@ -109,25 +108,25 @@ public class Game extends JFrame implements KeyListener {
     // MODIFIES: this
     // EFFECTS: loads gameState from GAMES_FILE, if that file exists;
     // otherwise initializes new gameState with default values
-    private void loadGame() {
+    public void loadGame() {
         try {
             game = new GsonBuilder().setPrettyPrinting().create();
             JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
-            System.out.println("Continue from saved game or start a new game?");
-            System.out.println("'C': Continue");
-            System.out.println("'N': New game");
-            String command = input.next();
-            command = command.toLowerCase();
-            if (command.equals("c")) {
-                System.out.println("Loaded previous save:");
-                gameState = game.fromJson(reader, gameState.getClass());
-                reader.close();
-                player = gameState.loadPlayer();
-                zombie = gameState.loadZombie();
-                score = gameState.loadScore();
-            } else if (command.equals("n")) {
-                init();
-            }
+//            System.out.println("Continue from saved game or start a new game?");
+//            System.out.println("'C': Continue");
+//            System.out.println("'N': New game");
+//            String command = input.next();
+//            command = command.toLowerCase();
+//            if (command.equals("c")) {
+            System.out.println("Loaded previous save:");
+            gameState = game.fromJson(reader, gameState.getClass());
+            reader.close();
+            player = gameState.loadPlayer();
+            zombie = gameState.loadZombie();
+            score = gameState.loadScore();
+//            } else if (command.equals("n")) {
+//                init();
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             init();
