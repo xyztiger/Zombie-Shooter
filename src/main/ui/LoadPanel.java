@@ -78,25 +78,19 @@ public class LoadPanel extends ButtonPanel {
     public void actionPerformed(ActionEvent ae) {
         pressed = (JButton) ae.getSource();
         if (pressed.equals(loadButton)) {
-//            try {
-//                gson = new GsonBuilder().setPrettyPrinting().create();
-//                JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
-//                System.out.println("Loaded previous save:");
-//                gameState = gson.fromJson(reader, gameState.getClass());
-//                reader.close();
-//                choice = "c";
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                init();
-//            }
-            game.loadGame();
+            try {
+                gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
+                System.out.println("Loaded previous save:");
+                gameState = gson.fromJson(reader, gameState.getClass());
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (pressed.equals(newButton)) {
-            game.init();
             System.out.println("Started new game!");
-//            choice = "n";
         }
         frame.dispose();
-//        game.loadGameState(gameState);
         game.startGame();
     }
 

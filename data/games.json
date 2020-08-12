@@ -1,0 +1,1 @@
+{"player":{"dir":"N","weapons":{"1":{"ammo":400,"cost":10,"name":"Pistol"}},"currentWeapon":{"ammo":400,"cost":10,"name":"Pistol"},"posX":200,"posY":200},"zombie":{"alive":true,"posX":264,"posY":102},"score":{"points":90}}
