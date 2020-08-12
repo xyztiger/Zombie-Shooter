@@ -5,7 +5,15 @@ import exceptions.BorderException;
 import exceptions.NoAmmoException;
 import exceptions.NotEnoughPointsException;
 import model.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
@@ -15,6 +23,7 @@ import com.google.gson.GsonBuilder;
 import persistence.GameState;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game extends JFrame implements KeyListener {
@@ -30,11 +39,13 @@ public class Game extends JFrame implements KeyListener {
     private LoadPanel loadPanel;
     private QuitPanel quitPanel;
     private JFrame gameFrame;
+    private static final int INTERVAL = 20;
     private static final String GAMES_FILE = "./data/games.json";
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
 
     // EFFECTS: runs the game
     public Game() {
+        super("BOXHEAD");
         homeScreen();
 //        startGame();
     }
@@ -45,6 +56,7 @@ public class Game extends JFrame implements KeyListener {
      *          processes user input
      */
     public void startGame() {
+        addTimer();
         boolean endGame = false;
         input = new Scanner(System.in);
 //        gameState = new GameState();
@@ -55,12 +67,12 @@ public class Game extends JFrame implements KeyListener {
         initGamePanel(this);
         initKeyListener();
         displayMenu();
-        String command = input.next();
-        command = command.toLowerCase();
-        if (command.equals("q")) {
-            processQuit();
-        }
-        processMainScreen(command);
+//        String command = input.next();
+//        command = command.toLowerCase();
+//        if (command.equals("q")) {
+//            processQuit();
+//        }
+//        processMainScreen(command);
         if (!zombie.getAlive()) {
             zombie = new Zombie();
         }
@@ -81,66 +93,16 @@ public class Game extends JFrame implements KeyListener {
         this.zombie = gameState.loadZombie();
     }
 
-//    private void loadGame(String choice) {
-//        try {
-//            game = new GsonBuilder().setPrettyPrinting().create();
-//            JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
-////            System.out.println("Continue from saved game or start a new game?");
-////            System.out.println("'C': Continue");
-////            System.out.println("'N': New game");
-//            String command = input.next();
-//            command = command.toLowerCase();
-//            if (choice.equals("c")) {
-//                System.out.println("Loaded previous save:");
-//                gameState = game.fromJson(reader, gameState.getClass());
-//                reader.close();
-//                player = gameState.loadPlayer();
-//                zombie = gameState.loadZombie();
-//                score = gameState.loadScore();
-//            } else if (choice.equals("n")) {
-//                init();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            init();
-//        }
-//    }
-
-    // MODIFIES: this
-    // EFFECTS: loads gameState from GAMES_FILE, if that file exists;
-    // otherwise initializes new gameState with default values
-    public void loadGame() {
-        try {
-            game = new GsonBuilder().setPrettyPrinting().create();
-            JsonReader reader = new JsonReader(new FileReader(GAMES_FILE));
-//            System.out.println("Continue from saved game or start a new game?");
-//            System.out.println("'C': Continue");
-//            System.out.println("'N': New game");
-//            String command = input.next();
-//            command = command.toLowerCase();
-//            if (command.equals("c")) {
-            System.out.println("Loaded previous save:");
-            gameState = game.fromJson(reader, gameState.getClass());
-            reader.close();
-            player = gameState.loadPlayer();
-            zombie = gameState.loadZombie();
-            score = gameState.loadScore();
-//            } else if (command.equals("n")) {
-//                init();
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            init();
-        }
-    }
-
     //EFFECTS: initializes the game panel
     private void initGamePanel(Game panel) {
+
         gamePanel = new GamePanel(this);
-        add(gamePanel);
-        setVisible(true);
+        add(gamePanel, BorderLayout.CENTER);
         setFocusable(true);
         requestFocusInWindow();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
     }
 
     //EFFECTS: initializes the key listener
@@ -148,55 +110,35 @@ public class Game extends JFrame implements KeyListener {
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if (String.valueOf(e.getKeyChar()).equals("q")) {
-                    processQuit();
-                }
-                processMovement(String.valueOf(e.getKeyChar()));
-
+                processKey(e);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-
             }
         });
     }
 
-    // MODIFIES: this
-    // EFFECTS: creates the player, a zombie, and the score
-    public void init() {
-        player = new Player();
-        zombie = new Zombie();
-        score = new Score();
-//        gameState.savePlayer(player);
-//        gameState.saveScore(score);
-//        gameState.saveZombie(zombie);
+    private void processKey(KeyEvent e) {
+        if (String.valueOf(e.getKeyChar()).equals("q")) {
+            processQuit();
+        }
+        processMovement(String.valueOf(e.getKeyChar()));
+        if (String.valueOf(e.getKeyChar()).equals("b")) {
+            proccessShop();
+        }
+        if (String.valueOf(e.getKeyChar()).equals("c")) {
+            processChooseWeapon();
+        }
+        if (String.valueOf(e.getKeyChar()).equals("j")) {
+            processShootGun();
+        }
     }
 
-    // EFFECTS: asks player if they would like to save current game, and if they really want to quit
-//    private boolean processQuit() {
-//        System.out.println("Would you like to save the game before you quit?");
-//        System.out.println("'S': Save and quit");
-//        System.out.println("'Q': Quit without saving");
-//        System.out.println("'B': Go back to game");
-//        String command = input.next();
-//        command = command.toLowerCase();
-//        switch (command) {
-//            case "q":
-//                return true;
-//            case "s":
-//                saveGame();
-//                return true;
-//            case "b":
-//                return false;
-//        }
-//        return false;
-//    }
 
     private void processQuit() {
         quitPanel = new QuitPanel(this);
@@ -341,6 +283,13 @@ public class Game extends JFrame implements KeyListener {
             default:
                 return false;
         }
+    }
+
+
+    private void addTimer() {
+        Timer t = new Timer(INTERVAL, ae -> gamePanel.repaint());
+
+        t.start();
     }
 
     public Player getPlayer() {

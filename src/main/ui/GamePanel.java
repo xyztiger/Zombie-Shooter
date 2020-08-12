@@ -14,11 +14,14 @@ import java.io.IOException;
 public class GamePanel extends JPanel {
     private BufferedImage playerImage;
     private Game game;
+    private JFrame frame;
 
     public GamePanel(Game game) {
-        setPreferredSize(new Dimension(Stage.WIDTH, Stage.HEIGHT));
-        setBackground(Color.white);
         this.game = game;
+//        setPreferredSize(new Dimension(Stage.WIDTH, Stage.HEIGHT));
+        setBackground(Color.white);
+        setBorder(BorderFactory.createEmptyBorder(500, 500, 500, 500));
+        setLayout(new GridLayout(0, 1));
     }
 
     private void drawGame(Graphics g) {
