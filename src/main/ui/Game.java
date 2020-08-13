@@ -73,9 +73,9 @@ public class Game extends JFrame implements KeyListener {
 //            processQuit();
 //        }
 //        processMainScreen(command);
-        if (!zombie.getAlive()) {
-            zombie = new Zombie();
-        }
+//        if (!zombie.getAlive()) {
+//            zombie = new Zombie();
+//        }
 //        }
 //        System.out.println("See you next time!");
     }
@@ -259,7 +259,7 @@ public class Game extends JFrame implements KeyListener {
             currentWeapon.shoot();
             if (detectHit()) {
                 score.increase(1);
-                zombie.die();
+                this.zombie = new Zombie();
                 System.out.println("Killed a zombie! Here comes another one!");
             } else {
                 System.out.println("Missed! Try again!");
@@ -273,13 +273,17 @@ public class Game extends JFrame implements KeyListener {
     private boolean detectHit() {
         switch (player.getDirection()) {
             case N:
-                return (player.getPosX() == zombie.getPosX()) && (player.getPosY() >= zombie.getPosY());
+                return ((zombie.getPosX() - 5) <= player.getPosX() && player.getPosX() <= (zombie.getPosX() + 5))
+                        && (player.getPosY() >= zombie.getPosY());
             case E:
-                return (player.getPosY() == zombie.getPosY()) && (player.getPosX() <= zombie.getPosX());
+                return ((zombie.getPosY() - 5) <= player.getPosY() && player.getPosY() <= (zombie.getPosY() + 5))
+                        && (player.getPosX() <= zombie.getPosX());
             case S:
-                return (player.getPosX() == zombie.getPosX()) && (player.getPosY() <= zombie.getPosY());
+                return ((zombie.getPosX() - 5) <= player.getPosX() && player.getPosX() <= (zombie.getPosX() + 5))
+                        && (player.getPosY() <= zombie.getPosY());
             case W:
-                return (player.getPosY() == zombie.getPosY()) && (player.getPosX() >= zombie.getPosX());
+                return ((zombie.getPosY() - 5) <= player.getPosY() && player.getPosY() <= (zombie.getPosY() + 5))
+                        && (player.getPosX() >= zombie.getPosX());
             default:
                 return false;
         }
