@@ -14,26 +14,24 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+// Panel which appears when user wants to quit; allows user to quit, save, or go back to game
 public class QuitPanel extends ButtonPanel {
     private JPanel quitPanel;
     private Player player;
     private Zombie zombie;
     private Score score;
-    private boolean ended;
     private JLabel quitLabel;
     private JFrame frame;
     private JButton quitButton = null;
     private JButton saveButton = null;
     private JButton backButton = null;
     private JButton pressed;
-    private ArrayList<JButton> buttons;
-    private Game game;
     private GameState gameState;
     private Gson gson;
     private static final String GAMES_FILE = "./data/games.json";
 
+    // EFFECTS: creates the quit panel
     public QuitPanel(Game game) {
-        this.game = game;
         this.player = game.getPlayer();
         this.zombie = game.getZombie();
         this.score = game.getScore();
@@ -53,6 +51,8 @@ public class QuitPanel extends ButtonPanel {
         frame.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the buttons which allow the player to save, quit, or go back
     private void initializeButtons(JPanel panel) {
         saveButton = addButton("Save and Exit");
         panel.add(saveButton);
@@ -66,6 +66,8 @@ public class QuitPanel extends ButtonPanel {
      * Invoked when an action occurs.
      *
      */
+    // MODIFIES: the save filed
+    // EFFECTS: processes user input to save or quit the game
     @Override
     public void actionPerformed(ActionEvent ae) {
         pressed = (JButton) ae.getSource();

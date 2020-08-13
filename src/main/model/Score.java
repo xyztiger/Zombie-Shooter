@@ -2,13 +2,14 @@ package model;
 
 import exceptions.NotEnoughPointsException;
 
+// Represents the current score of the player ie. how many zombies the player has killed; can be spent to buy weapons
 public class Score {
     private int points;
 
     // MODIFIES: this
     // EFFECTS: creates a new score object with points set to 0
     public Score() {
-        points = 90;
+        points = 0;
     }
 
     // MODIFIES: this

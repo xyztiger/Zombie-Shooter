@@ -6,11 +6,6 @@ import java.util.ArrayList;
 public abstract class Entity {
     int posX; // the Entity's x-coordinate on the stage
     int posY; // the Entity's y-coordinate on the stage
-//    void move();
-//
-//    void hurt();
-//
-//    void die();
 
     //EFFECTS: returns a list of integers representing the Entity's x and y position
     public ArrayList<Integer> getPosition() {

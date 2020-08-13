@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StageTest {
     @Test
     void testConstants() {
-        assertEquals(20, Stage.WIDTH);
-        assertEquals(20, Stage.HEIGHT);
+        assertEquals(400, Stage.WIDTH);
+        assertEquals(400, Stage.HEIGHT);
     }
 }

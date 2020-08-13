@@ -15,40 +15,31 @@ import java.awt.event.ActionEvent;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+// Panel for allowing the user to choose between starting a new game or loading a save
 public class LoadPanel extends ButtonPanel {
     private JPanel loadPanel;
-    private Player player;
-    private boolean ended;
     private JLabel loadLabel;
     private JFrame frame;
     private JButton loadButton = null;
     private JButton newButton = null;
-    private JButton shotgunButton = null;
-    private JButton rpgButton = null;
     private JButton pressed;
     private GameState gameState;
-    private ArrayList<JButton> buttons;
     private Game game;
     private Gson gson;
     private static final String GAMES_FILE = "./data/games.json";
-    private String choice;
 
+    // EFFECTS: Creates a new load game panel
     public LoadPanel(Game game) {
         gameState = new GameState();
         this.game = game;
         initChoosePanel();
     }
 
-    public LoadPanel() {
-        initChoosePanel();
-    }
-
+    // MODIFIES: this
+    // EFFECTS: initializes the panel and labels
     private void initChoosePanel() {
         frame = new JFrame();
         loadLabel = new JLabel("Welcome to BOXHEAD ZOMBIE SHOOTER!");
-        this.player = this.game.getPlayer();
-        this.ended = false;
-
         loadPanel = new JPanel();
         loadPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
         loadPanel.setLayout(new GridLayout(0, 1));
@@ -63,6 +54,8 @@ public class LoadPanel extends ButtonPanel {
         frame.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes the load game/new game buttons
     private void initializeButtons(JPanel panel) {
         loadButton = addButton("Load Previous Save");
         panel.add(loadButton);
@@ -74,6 +67,8 @@ public class LoadPanel extends ButtonPanel {
      * Invoked when an action occurs.
      *
      */
+    // MODIFIES: this
+    // EFFECTS: processes user input
     @Override
     public void actionPerformed(ActionEvent ae) {
         pressed = (JButton) ae.getSource();
@@ -98,14 +93,4 @@ public class LoadPanel extends ButtonPanel {
         return gameState;
     }
 
-    private void init() {
-        gameState = new GameState();
-//        gameState.savePlayer(player);
-//        gameState.saveScore(score);
-//        gameState.saveZombie(zombie);
-    }
-
-    public String choice() {
-        return choice;
-    }
 }

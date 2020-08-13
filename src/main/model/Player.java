@@ -15,12 +15,6 @@ public class Player extends Entity {
     private Direction dir; // the direction the player is currently facing
     private HashMap<Integer, Weapon> weapons; // the weapons the player currently has
     private Weapon currentWeapon; // the current weapon the player is using
-//    private EnumSet<Weapons> weapons;
-//    private Set<Weapon> weapons;
-//    private int health;
-//    private boolean alive;
-//    private int posX;
-//    private int posY;
 
     // possible directions the player can face: N: North, E: East, S: South, W: West
     public enum Direction {
@@ -132,27 +126,4 @@ public class Player extends Entity {
         return currentWeapon;
     }
 
-//    public void die() {
-//    }
-//
-//    public void switchWeapon() {
-//    }
-//
-//    public void shoot() {
-//    }
-
-//    public int getHealth() {
-//        return health;
-//    }
-
-//    public void hurt() {
-//        health -= 1;
-//    }
-
-//    public ArrayList<Integer> getPosition() {
-//        ArrayList<Integer> position = new ArrayList<>();
-//        position.add(posX);
-//        position.add(posY);
-//        return position;
-//    }
 }

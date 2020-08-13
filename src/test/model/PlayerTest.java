@@ -34,7 +34,7 @@ class PlayerTest {
         try {
             testPlayer.move();
             assertEquals(Stage.WIDTH / 2, testPlayer.posX);
-            assertEquals(Stage.HEIGHT / 2 - 1, testPlayer.posY);
+            assertEquals(Stage.HEIGHT / 2 - 5, testPlayer.posY);
         } catch (BorderException be) {
             fail();
         }
@@ -49,7 +49,7 @@ class PlayerTest {
         testPlayer.setDirection("E");
         try {
             testPlayer.move();
-            assertEquals(Stage.WIDTH / 2 + 1, testPlayer.posX);
+            assertEquals(Stage.WIDTH / 2 + 5, testPlayer.posX);
             assertEquals(Stage.HEIGHT / 2, testPlayer.posY);
         } catch (BorderException be) {
             fail();

@@ -9,10 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// The panel in which the player can choose a weapon from their purchased weapons
 public class ChoosePanel extends ButtonPanel {
     private JPanel choosePanel;
     private Player player;
-    private boolean ended;
     private JLabel chooseLabel;
     private JFrame frame;
     private JButton pistolButton = null;
@@ -20,7 +20,6 @@ public class ChoosePanel extends ButtonPanel {
     private JButton shotgunButton = null;
     private JButton rpgButton = null;
     private JButton pressed;
-    private ArrayList<JButton> buttons;
     private Game game;
 
     private static final ImageIcon PISTOL_IMG = new ImageIcon("./data/images/pistol.jpg");
@@ -35,7 +34,6 @@ public class ChoosePanel extends ButtonPanel {
         chooseLabel = new JLabel("Choose your weapon!");
         this.game = game;
         this.player = this.game.getPlayer();
-        this.ended = false;
         initChoosePanel();
         choosePanel.add(chooseLabel);
         initializeButtons(choosePanel);
@@ -53,7 +51,6 @@ public class ChoosePanel extends ButtonPanel {
         choosePanel = new JPanel();
         choosePanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
         choosePanel.setLayout(new GridLayout(0, 1));
-        buttons = new ArrayList<>();
     }
 
     // MODIFIES: this
@@ -89,8 +86,6 @@ public class ChoosePanel extends ButtonPanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         pressed = (JButton) e.getSource();
-        int index;
-        Weapon current = null;
         String pressedText = pressed.getText();
         if (pressedText.contains("Pistol")) {
             setWeapon("Pistol");

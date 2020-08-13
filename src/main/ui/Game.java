@@ -1,29 +1,21 @@
 package ui;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.Gson;
 import exceptions.BorderException;
 import exceptions.NoAmmoException;
-import exceptions.NotEnoughPointsException;
-import model.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import model.Player;
+import model.Score;
+import model.Weapon;
+import model.Zombie;
 import persistence.GameState;
 
 import javax.swing.*;
-import javax.swing.Timer;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game extends JFrame implements KeyListener {
@@ -38,7 +30,6 @@ public class Game extends JFrame implements KeyListener {
     private ChoosePanel choosePanel;
     private LoadPanel loadPanel;
     private QuitPanel quitPanel;
-    private JFrame gameFrame;
     private static final int INTERVAL = 20;
     private static final String GAMES_FILE = "./data/games.json";
     private static final ArrayList<String> MOVEMENTS = new ArrayList<>(Arrays.asList("w", "a", "s", "d"));
@@ -47,7 +38,6 @@ public class Game extends JFrame implements KeyListener {
     public Game() {
         super("BOXHEAD");
         homeScreen();
-//        startGame();
     }
 
     /*
@@ -57,27 +47,11 @@ public class Game extends JFrame implements KeyListener {
      */
     public void startGame() {
         addTimer();
-        boolean endGame = false;
         input = new Scanner(System.in);
-//        gameState = new GameState();
-//        loadGame();
         loadGameState(loadPanel.getGameState());
-//        loadGame(loadPanel.choice());
-//        while (!endGame) {
-        initGamePanel(this);
+        initGamePanel();
         initKeyListener();
         displayMenu();
-//        String command = input.next();
-//        command = command.toLowerCase();
-//        if (command.equals("q")) {
-//            processQuit();
-//        }
-//        processMainScreen(command);
-//        if (!zombie.getAlive()) {
-//            zombie = new Zombie();
-//        }
-//        }
-//        System.out.println("See you next time!");
     }
 
     private void homeScreen() {
@@ -94,8 +68,7 @@ public class Game extends JFrame implements KeyListener {
     }
 
     //EFFECTS: initializes the game panel
-    private void initGamePanel(Game panel) {
-
+    private void initGamePanel() {
         gamePanel = new GamePanel(this);
         add(gamePanel, BorderLayout.CENTER);
         setFocusable(true);
@@ -144,52 +117,15 @@ public class Game extends JFrame implements KeyListener {
         quitPanel = new QuitPanel(this);
     }
 
-    // EFFECTS: saves the current gameState to GAMES_FILE to be loaded in the future
-    private void saveGame() {
-        try {
-            Writer writer = new FileWriter(GAMES_FILE);
-            gameState.savePlayer(player);
-            gameState.saveZombie(zombie);
-            gameState.saveScore(score);
-            game.toJson(gameState, writer);
-            writer.close();
-            System.out.println("Game saved to file " + GAMES_FILE);
-        } catch (IOException e) {
-            System.out.println("Saving failed!");
-        }
-    }
-
     // EFFECTS: shows the current score on screen
     private void showScore() {
         System.out.println("Points: " + score.getPoints());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: processes user input for the main screen
-    private void processMainScreen(String command) {
-        switch (command) {
-            case "b":
-                proccessShop();
-                break;
-            case "c":
-                processChooseWeapon();
-                break;
-            case "i":
-                displayInstructions();
-//        } else if (MOVEMENTS.contains(command)) {
-//            processMovement(command);
-                break;
-            case "j":
-                processShootGun();
-                break;
-        }
     }
 
     private void proccessShop() {
         shopPanel = new ShopPanel(this);
         this.score = shopPanel.getScore();
         this.player = shopPanel.getPlayer();
-//        showWeapons();
     }
 
     private void processChooseWeapon() {
@@ -222,7 +158,6 @@ public class Game extends JFrame implements KeyListener {
         } catch (BorderException be) {
             System.out.println("Hit the wall of the room!");
         }
-        System.out.println("Now at" + player.getPosition());
     }
 
     // EFFECTS: displays list of information the user needs to know
@@ -231,19 +166,8 @@ public class Game extends JFrame implements KeyListener {
         System.out.println("current weapon: " + player.getCurrentWeaponName());
         System.out.println("current weapon ammo: " + player.getCurrentWeapon().getAmmo());
         System.out.println("current position: " + player.getPosition());
-//        System.out.println("current health: " + player.getHealth());
         System.out.println("ZOMBIE AT: " + zombie.getPosition() + "!!!");
         System.out.println("press 'I' for instructions");
-    }
-
-    // EFFECTS: displays list of instructions to play the game
-    private void displayInstructions() {
-        System.out.println("INSTRUCTIONS:");
-        System.out.println("use 'WASD' to move");
-        System.out.println("press 'J' to shoot!");
-        System.out.println("press 'C' to choose a weapon");
-        System.out.println("press 'B' to buy new weapons");
-        System.out.println("press 'Q' to quit game");
     }
 
 
@@ -306,14 +230,6 @@ public class Game extends JFrame implements KeyListener {
 
     public Score getScore() {
         return this.score;
-    }
-
-    public void setGameState(GameState gamestate) {
-        this.gameState = gamestate;
-    }
-
-    public GameState getGameState() {
-        return gameState;
     }
 
     /**

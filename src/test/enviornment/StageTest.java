@@ -10,7 +10,7 @@ public class StageTest {
     @Test
     void testConstructor() {
         testStage  = new Stage();
-        assertEquals(20, testStage.WIDTH);
-        assertEquals(20, testStage.HEIGHT);
+        assertEquals(400, testStage.WIDTH);
+        assertEquals(400, testStage.HEIGHT);
     }
 }

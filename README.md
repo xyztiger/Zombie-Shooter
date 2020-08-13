@@ -36,5 +36,9 @@ This project is interesting to me because:
 - press B for the user story "- As a user, I want to be able to buy new guns and add them to my arsenal"
     and "- As a user, I want to be able to buy and add ammo to my ammo reservoir"
 - press C for the user story "- As a user, I want to be able to choose a weapon from my current arsenal"
-- Load game GUI is implemented but buggy. It works on its own but breaks the shop and choose weapon GUIs. 
-- For this version of the game, the load game GUI is not used (necessary methods are commented out)
+
+- PHASE 4: TASK 2
+- My Player class is robust in that the move() method will throw a BorderException if the player attempts to move
+  outside the stage. This exception is handled by the Game class which will print out a message to the system and
+  not allow the player to move out the stage.
+- The tests for the move() method and exception handling is included in the PlayerTest class.

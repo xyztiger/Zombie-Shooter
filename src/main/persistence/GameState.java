@@ -12,24 +12,17 @@ public class GameState {
     private Player player;
     private Zombie zombie;
     private Score score;
-    private List<Zombie> zombies;
 
     // EFFECTS: creates a new game with a new player, new zombie, and score of 0
     public GameState() {
         player = new Player();
         zombie = new Zombie();
         score = new Score();
-        zombies = new ArrayList<>();
-        zombies.add(zombie);
     }
 
     // setters and getters:
     public void savePlayer(Player p) {
         player = p;
-    }
-
-    public void saveZombies(List<Zombie> z) {
-        zombies = z;
     }
 
     public void saveZombie(Zombie z) {
@@ -42,10 +35,6 @@ public class GameState {
 
     public Player loadPlayer() {
         return player;
-    }
-
-    public List<Zombie> loadZombies() {
-        return zombies;
     }
 
     public Zombie loadZombie() {

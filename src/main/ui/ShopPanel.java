@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import exceptions.NotEnoughPointsException;
 import model.*;
 
+// Panel for the weapon shop; allows player to purchase new weapons
 public class ShopPanel extends ButtonPanel {
 
     private JLabel shopLabel;
@@ -22,7 +23,6 @@ public class ShopPanel extends ButtonPanel {
     private JButton pressed;
     private Score score;
     private Player player;
-    private boolean ended;
     private Game game;
 
     private static final ImageIcon PISTOL_IMG = new ImageIcon("./data/images/pistol.jpg");
@@ -39,7 +39,6 @@ public class ShopPanel extends ButtonPanel {
         this.game = game;
         this.score = this.game.getScore();
         this.player = this.game.getPlayer();
-        this.ended = false;
         scoreLabel = new JLabel("Available points: " + this.score.getPoints());
         shopPanel = new JPanel();
         shopPanel.add(shopLabel);
@@ -100,21 +99,6 @@ public class ShopPanel extends ButtonPanel {
         }
     }
 
-//    public String getPressed() {
-//        if (buyPistol.equals(pressed)) {
-//            return "P";
-//        } else if (buyUzi.equals(pressed)) {
-//            return "U";
-//        } else if (buyShotgun.equals(pressed)) {
-//            return "S";
-//        } else if (buyRPG.equals(pressed)) {
-//            return "R";
-//        } else if (quit.equals(pressed)) {
-//            frame.dispose();
-//            return "Q";
-//        }
-//        return "";
-//    }
 
     public Player getPlayer() {
         return this.player;

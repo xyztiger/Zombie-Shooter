@@ -1,25 +1,19 @@
 package ui;
 
-import com.sun.prism.GraphicsPipeline;
-import enviornment.Stage;
-import model.*;
+import model.Player;
+import model.Zombie;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
+// Panel for the game that shows the player and zombie; allows player to move and shoot
 public class GamePanel extends JPanel {
-    private BufferedImage playerImage;
     private Game game;
-    private JFrame frame;
     private JLabel label;
 
+    // EFFECTS: creates the game panel with an instruction label
     public GamePanel(Game game) {
         this.game = game;
-//        setPreferredSize(new Dimension(Stage.WIDTH, Stage.HEIGHT));
         label = new JLabel("press J to shoot; B to buy guns; C to choose weapon; Q to quit");
         label.setSize(label.getPreferredSize());
         label.setLocation(0,0);
@@ -29,17 +23,20 @@ public class GamePanel extends JPanel {
         setLayout(new GridLayout(0, 1));
     }
 
+    // EFFECTS: draws the player and the zombie
     private void drawGame(Graphics g) {
         drawPlayer(g);
         drawZombie(g);
     }
 
+    // EFFECTS: draws the components of the game
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawGame(g);
     }
 
+    // EFFECTS: draws the player at their specific location
     private void drawPlayer(Graphics g) {
         Player p = game.getPlayer();
         int[] vertexX;
@@ -49,13 +46,9 @@ public class GamePanel extends JPanel {
         Polygon triangle = new Polygon(vertexX, vertexY, 3);
         g.fillPolygon(triangle);
         g.setColor(Color.GREEN);
-//        try {
-//            playerImage = ImageIO.read(new File("./data/8bitmegaman"));
-//        } catch (IOException ioe) {
-//            System.err.println("Cannot find player image!");
-//        }
     }
 
+    // EFFECTS: draws the zombie at its specific location
     private void drawZombie(Graphics g) {
         Zombie z = game.getZombie();
         g.fillRect(z.getPosX(), z.getPosY(), 10, 10);
