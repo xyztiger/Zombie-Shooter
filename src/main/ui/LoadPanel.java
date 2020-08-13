@@ -84,18 +84,13 @@ public class LoadPanel extends ButtonPanel {
                 System.out.println("Loaded previous save:");
                 gameState = gson.fromJson(reader, gameState.getClass());
                 reader.close();
-                choice = "c";
             } catch (Exception e) {
                 e.printStackTrace();
-                init();
             }
         } else if (pressed.equals(newButton)) {
-            init();
             System.out.println("Started new game!");
-            choice = "n";
         }
         frame.dispose();
-        game.loadGameState(gameState);
         game.startGame();
     }
 

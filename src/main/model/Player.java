@@ -52,16 +52,16 @@ public class Player extends Entity {
      */
     public void move() throws BorderException {
         if (dir == Direction.N) {
-            posY -= 1;
+            posY -= 5;
         }
         if (dir == Direction.E) {
-            posX += 1;
+            posX += 5;
         }
         if (dir == Direction.S) {
-            posY += 1;
+            posY += 5;
         }
         if (dir == Direction.W) {
-            posX -= 1;
+            posX -= 5;
         }
         checkHitBorder();
     }
