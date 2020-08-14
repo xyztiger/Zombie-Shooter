@@ -42,7 +42,7 @@ This project is interesting to me because:
 - My Player class is robust in that the move() method will throw a BorderException if the player attempts to move
   outside the stage. This exception is handled by the Game class which will print out a message to the system and
   not allow the player to move out the stage.
-- The tests for the move() method and exception handling is included in the PlayerTest class.
+- The tests for the move() method and exception handling is included in the PlayerTest class as testMove() and testCheckHitBorder().
 
 ## Phase 4: Task 3
 - One problem is that my panels contained too much duplicate code. I fixed this by creating an abstract class called
