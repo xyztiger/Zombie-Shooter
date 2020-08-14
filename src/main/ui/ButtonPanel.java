@@ -8,6 +8,13 @@ import java.awt.event.ActionListener;
 // Abstract class for all panels which have buttons
 public abstract class ButtonPanel implements ActionListener {
 
+    // EFFECTS: initializes the JPanel and adds the JLabel
+    public void initPanel(JPanel panel, JLabel label) {
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+        panel.setLayout(new GridLayout(0, 1));
+        panel.add(label);
+    }
+
     // EFFECTS: returns a button with given label and icon
     public JButton addButton(String label, ImageIcon icon) {
         JButton button = new JButton(label);

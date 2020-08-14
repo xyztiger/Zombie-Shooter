@@ -42,3 +42,12 @@ This project is interesting to me because:
   outside the stage. This exception is handled by the Game class which will print out a message to the system and
   not allow the player to move out the stage.
 - The tests for the move() method and exception handling is included in the PlayerTest class.
+
+- PHASE 4: TASK 3
+- One problem is that my panels contained too much duplicate code. I fixed this by creating an abstract class called
+  ButtonPanel which implements methods common to all my panels that have buttons. All my panels which have buttons now 
+  extend the ButtonPanel class, which drastically reduced duplicate code. This was partially done in Phase 3.
+- Another problem is that there was poor cohesion in my Game class. This class had too many functionalities. I fixed
+  this by creating two separate classes called the LoadPanel and QuitPanel, which implement the load game and save/quit
+  game features that were both originally methods within the Game class. Now the Game class has less logic and focuses
+  more on taking in user input.

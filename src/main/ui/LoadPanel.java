@@ -32,19 +32,16 @@ public class LoadPanel extends ButtonPanel {
     public LoadPanel(Game game) {
         gameState = new GameState();
         this.game = game;
-        initChoosePanel();
+        initLoadPanel();
     }
 
     // MODIFIES: this
     // EFFECTS: initializes the panel and labels
-    private void initChoosePanel() {
+    private void initLoadPanel() {
         frame = new JFrame();
         loadLabel = new JLabel("Welcome to BOXHEAD ZOMBIE SHOOTER!");
         loadPanel = new JPanel();
-        loadPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
-        loadPanel.setLayout(new GridLayout(0, 1));
-
-        loadPanel.add(loadLabel);
+        initPanel(loadPanel, loadLabel);
         initializeButtons(loadPanel);
 
         frame.add(loadPanel, BorderLayout.CENTER);

@@ -34,8 +34,10 @@ public class ChoosePanel extends ButtonPanel {
         chooseLabel = new JLabel("Choose your weapon!");
         this.game = game;
         this.player = this.game.getPlayer();
-        initChoosePanel();
-        choosePanel.add(chooseLabel);
+//        initChoosePanel();
+//        choosePanel.add(chooseLabel);
+        choosePanel = new JPanel();
+        initPanel(choosePanel, chooseLabel);
         initializeButtons(choosePanel);
 
         frame.add(choosePanel, BorderLayout.CENTER);

@@ -41,10 +41,8 @@ public class ShopPanel extends ButtonPanel {
         this.player = this.game.getPlayer();
         scoreLabel = new JLabel("Available points: " + this.score.getPoints());
         shopPanel = new JPanel();
-        shopPanel.add(shopLabel);
+        initPanel(shopPanel, shopLabel);
         shopPanel.add(scoreLabel);
-        shopPanel.setBorder(BorderFactory.createEmptyBorder(200, 800, 200, 800));
-        shopPanel.setLayout(new GridLayout(0, 1));
         initializeButtons(shopPanel);
 
         frame.add(shopPanel, BorderLayout.CENTER);

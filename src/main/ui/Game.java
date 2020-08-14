@@ -19,11 +19,9 @@ import java.util.Scanner;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game extends JFrame implements KeyListener {
-    private Scanner input;
     private Player player;
     private Zombie zombie;
     private Score score;
-    private Gson game;
     private GameState gameState;
     private ShopPanel shopPanel;
     private GamePanel gamePanel;
@@ -47,7 +45,6 @@ public class Game extends JFrame implements KeyListener {
      */
     public void startGame() {
         addTimer();
-        input = new Scanner(System.in);
         loadGameState(loadPanel.getGameState());
         initGamePanel();
         initKeyListener();

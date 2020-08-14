@@ -38,10 +38,7 @@ public class QuitPanel extends ButtonPanel {
         frame = new JFrame();
         quitLabel = new JLabel("Exit the game?");
         quitPanel = new JPanel();
-        quitPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
-        quitPanel.setLayout(new GridLayout(0, 1));
-
-        quitPanel.add(quitLabel);
+        initPanel(quitPanel, quitLabel);
         initializeButtons(quitPanel);
 
         frame.add(quitPanel, BorderLayout.CENTER);
