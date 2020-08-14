@@ -37,13 +37,14 @@ This project is interesting to me because:
     and "- As a user, I want to be able to buy and add ammo to my ammo reservoir"
 - press C for the user story "- As a user, I want to be able to choose a weapon from my current arsenal"
 
-- PHASE 4: TASK 2
+
+## Phase 4: Task 2
 - My Player class is robust in that the move() method will throw a BorderException if the player attempts to move
   outside the stage. This exception is handled by the Game class which will print out a message to the system and
   not allow the player to move out the stage.
 - The tests for the move() method and exception handling is included in the PlayerTest class.
 
-- PHASE 4: TASK 3
+## Phase 4: Task 3
 - One problem is that my panels contained too much duplicate code. I fixed this by creating an abstract class called
   ButtonPanel which implements methods common to all my panels that have buttons. All my panels which have buttons now 
   extend the ButtonPanel class, which drastically reduced duplicate code. This was partially done in Phase 3.
