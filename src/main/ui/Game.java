@@ -1,6 +1,5 @@
 package ui;
 
-import com.google.gson.Gson;
 import exceptions.BorderException;
 import exceptions.NoAmmoException;
 import model.Player;
@@ -15,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game extends JFrame implements KeyListener {
@@ -51,6 +49,8 @@ public class Game extends JFrame implements KeyListener {
         displayMenu();
     }
 
+    // MODIFIES: this
+    // EFFECTS: prompts the homescreen/load game screen to show
     private void homeScreen() {
         loadPanel = new LoadPanel(this);
     }
@@ -78,21 +78,25 @@ public class Game extends JFrame implements KeyListener {
     //EFFECTS: initializes the key listener
     private void initKeyListener() {
         addKeyListener(new KeyListener() {
+            // NOT USED
             @Override
             public void keyTyped(KeyEvent e) {
             }
 
+            // EFFECTS: processes input when key is pressed
             @Override
             public void keyPressed(KeyEvent e) {
                 processKey(e);
             }
 
+            // NOT USED
             @Override
             public void keyReleased(KeyEvent e) {
             }
         });
     }
 
+    // EFFECTS: processes user input to trigger various actions
     private void processKey(KeyEvent e) {
         if (String.valueOf(e.getKeyChar()).equals("q")) {
             processQuit();
@@ -110,6 +114,8 @@ public class Game extends JFrame implements KeyListener {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: displays the quit game panel
     private void processQuit() {
         quitPanel = new QuitPanel(this);
     }
@@ -119,12 +125,16 @@ public class Game extends JFrame implements KeyListener {
         System.out.println("Points: " + score.getPoints());
     }
 
+    // MODIFIES: this
+    // EFFECTS: shows the weapon shop
     private void proccessShop() {
         shopPanel = new ShopPanel(this);
         this.score = shopPanel.getScore();
         this.player = shopPanel.getPlayer();
     }
 
+    // MODIFIES: this
+    // EFFECTSL shows the choose weapon menu
     private void processChooseWeapon() {
         choosePanel = new ChoosePanel(this);
         this.player = choosePanel.getPlayer();
@@ -211,9 +221,10 @@ public class Game extends JFrame implements KeyListener {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: starts a timer for the game to update its graphics
     private void addTimer() {
         Timer t = new Timer(INTERVAL, ae -> gamePanel.repaint());
-
         t.start();
     }
 
@@ -229,6 +240,8 @@ public class Game extends JFrame implements KeyListener {
         return this.score;
     }
 
+
+    // METHODS BELOW NOT USED
     /**
      * Invoked when a key has been typed.
      * See the class description for {@link KeyEvent} for a definition of

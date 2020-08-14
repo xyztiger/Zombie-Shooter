@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 
 // Panel which appears when user wants to quit; allows user to quit, save, or go back to game
 public class QuitPanel extends ButtonPanel {

@@ -1,10 +1,8 @@
 package persistence;
 
-import model.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import model.Player;
+import model.Score;
+import model.Zombie;
 
 // Represents the current state of the game; contains all necessary information for games to
 // be saved and loaded

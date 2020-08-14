@@ -3,17 +3,12 @@ package ui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import model.Player;
-import model.Score;
-import model.Weapon;
-import model.Zombie;
 import persistence.GameState;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
-import java.util.ArrayList;
 
 // Panel for allowing the user to choose between starting a new game or loading a save
 public class LoadPanel extends ButtonPanel {

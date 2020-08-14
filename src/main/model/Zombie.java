@@ -1,7 +1,8 @@
 package model;
 
+import enviornment.Stage;
+
 import java.util.Random;
-import enviornment.*;
 
 /*
  * Represents the enemies that they player wants to shoot to kill

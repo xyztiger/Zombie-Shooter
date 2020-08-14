@@ -1,13 +1,11 @@
 package ui;
 
-import exceptions.NotEnoughPointsException;
-import model.*;
+import model.Player;
+import model.Weapon;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 // The panel in which the player can choose a weapon from their purchased weapons
 public class ChoosePanel extends ButtonPanel {
