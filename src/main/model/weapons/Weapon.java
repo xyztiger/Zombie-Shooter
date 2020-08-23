@@ -1,6 +1,7 @@
-package model;
+package model.weapons;
 
 import exceptions.NoAmmoException;
+import model.Player;
 
 import java.util.Objects;
 
@@ -12,8 +13,9 @@ import java.util.Objects;
  */
 
 public class Weapon {
-    private int ammo; // the weapon's current ammo count
-    private int cost; // the number of points required to buy the weapon
+    int ammo; // the weapon's current ammo count
+    int cost; // the number of points required to buy the weapon
+    Player player;
     private String name; // the weapon's name
     private static final int MAXAMMO = 0;
 

@@ -1,6 +1,9 @@
 package model;
 
 import exceptions.NoAmmoException;
+import model.weapons.Pistol;
+import model.weapons.Uzi;
+import model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

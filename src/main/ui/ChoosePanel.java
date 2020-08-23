@@ -1,7 +1,7 @@
 package ui;
 
 import model.Player;
-import model.Weapon;
+import model.weapons.Weapon;
 
 import javax.swing.*;
 import java.awt.*;

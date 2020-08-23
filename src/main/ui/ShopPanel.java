@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import exceptions.NotEnoughPointsException;
 import model.*;
+import model.weapons.Pistol;
+import model.weapons.RPG;
+import model.weapons.Shotgun;
+import model.weapons.Uzi;
 
 // Panel for the weapon shop; allows player to purchase new weapons
 public class ShopPanel extends ButtonPanel {

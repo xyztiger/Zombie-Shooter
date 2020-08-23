@@ -4,7 +4,7 @@ import exceptions.BorderException;
 import exceptions.NoAmmoException;
 import model.Player;
 import model.Score;
-import model.Weapon;
+import model.weapons.Weapon;
 import model.Zombie;
 import persistence.GameState;
 

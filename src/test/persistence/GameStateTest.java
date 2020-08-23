@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import model.*;
+import model.weapons.RPG;
+import model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +42,7 @@ public class GameStateTest {
             testZombie = testGameState.loadZombie();
             testScore = testGameState.loadScore();
 
-            assertEquals(Player.Direction.S, testPlayer.getDirection());
+            assertEquals(Direction.S, testPlayer.getDirection());
             assertEquals(8, testPlayer.getPosX());
             assertEquals(5, testPlayer.getPosY());
             HashMap<Integer, Weapon> testWeapons = testPlayer.getWeapons();
@@ -84,7 +86,7 @@ public class GameStateTest {
         assertEquals(testPRG, testPlayerLoad.getCurrentWeapon());
         assertEquals(2, testPlayerLoad.getPosX());
         assertEquals(3, testPlayerLoad.getPosY());
-        assertEquals(Player.Direction.E, testPlayerLoad.getDirection());
+        assertEquals(Direction.E, testPlayerLoad.getDirection());
         assertEquals(20, testPlayerLoad.getCurrentWeapon().getAmmo());
 
         assertTrue(testZombie.getAlive());

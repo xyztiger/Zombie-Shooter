@@ -1,10 +1,11 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import enviornment.*;
 import exceptions.BorderException;
+import model.weapons.Pistol;
+import model.weapons.Weapon;
 
 // Represents the player which the user can move around the stage and shoot from to kill zombies
 // the player has a direction of either N, E, S, or W which they are facing and can shoot the gun in that direction
@@ -12,14 +13,14 @@ import exceptions.BorderException;
 
 public class Player extends Entity {
 
-    private Direction dir; // the direction the player is currently facing
     private HashMap<Integer, Weapon> weapons; // the weapons the player currently has
     private Weapon currentWeapon; // the current weapon the player is using
+    private static final int SPEED = 5;
 
     // possible directions the player can face: N: North, E: East, S: South, W: West
-    public enum Direction {
-        N, E, S, W
-    }
+//    public enum Direction {
+//        N, E, S, W
+//    }
 
 
     /*
@@ -29,6 +30,7 @@ public class Player extends Entity {
     public Player() {
         posX = Stage.WIDTH / 2;
         posY = Stage.HEIGHT / 2;
+        speed = SPEED;
 //        health = 100;
 //        alive = true;
         setDirection("N");
@@ -36,48 +38,6 @@ public class Player extends Entity {
         Weapon pistol = new Pistol();
         addWeapons(pistol);
         currentWeapon = pistol;
-    }
-
-    /*
-     * MODIFIES: this
-     * EFFECTS: moves the player by one unit in the direction they are facing;
-     *          if the player attempts to move beyond the boundaries set by the stage,
-     *          the player does not move
-     */
-    public void move() throws BorderException {
-        if (dir == Direction.N) {
-            posY -= 5;
-        }
-        if (dir == Direction.E) {
-            posX += 5;
-        }
-        if (dir == Direction.S) {
-            posY += 5;
-        }
-        if (dir == Direction.W) {
-            posX -= 5;
-        }
-        checkHitBorder();
-    }
-
-    // EFFECTS: if the player is beyond the boundaries set by the stage, throw a border exception
-    public void checkHitBorder() throws BorderException {
-        if (getPosY() < 0) {
-            setPosY(0);
-            throw new BorderException();
-        }
-        if (getPosY() > Stage.HEIGHT) {
-            setPosY(Stage.HEIGHT);
-            throw new BorderException();
-        }
-        if (getPosX() < 0) {
-            setPosX(0);
-            throw new BorderException();
-        }
-        if (getPosX() > Stage.WIDTH) {
-            setPosX(Stage.WIDTH);
-            throw new BorderException();
-        }
     }
 
     public void setDirection(String d) {

@@ -1,4 +1,4 @@
-package model;
+package model.weapons;
 
 // A specific type of weapon which the player starts with; high starting ammo
 public class Pistol extends Weapon {

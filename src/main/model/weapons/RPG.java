@@ -1,4 +1,6 @@
-package model;
+package model.weapons;
+
+import model.weapons.Weapon;
 
 // A specific type of weapon which the player can buy; very low ammo capacity
 public class RPG extends Weapon {
