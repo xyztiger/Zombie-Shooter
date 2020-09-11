@@ -27,7 +27,6 @@ public class Shotgun extends Weapon {
         return MAXAMMO;
     }
 
-    @Override
     /*
      * MODIFIES: this
      * EFFECTS: reduces the ammo count of the weapon by 1

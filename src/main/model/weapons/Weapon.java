@@ -1,6 +1,7 @@
 package model.weapons;
 
 import exceptions.NoAmmoException;
+import model.Bullet;
 import model.Player;
 
 import java.util.Objects;

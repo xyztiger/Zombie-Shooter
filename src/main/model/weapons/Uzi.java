@@ -24,7 +24,6 @@ public class Uzi extends Weapon {
         return MAX_AMMO;
     }
 
-    @Override
     /*
      * MODIFIES: this
      * EFFECTS: reduces the ammo count of the weapon by 1

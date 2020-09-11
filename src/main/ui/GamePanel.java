@@ -1,10 +1,12 @@
 package ui;
 
+import model.Bullet;
 import model.Player;
 import model.Zombie;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 // Panel for the game that shows the player and zombie; allows player to move and shoot
 public class GamePanel extends JPanel {
@@ -27,6 +29,7 @@ public class GamePanel extends JPanel {
     private void drawGame(Graphics g) {
         drawPlayer(g);
         drawZombie(g);
+        drawBullet(g);
     }
 
     // EFFECTS: draws the components of the game
@@ -53,5 +56,14 @@ public class GamePanel extends JPanel {
         Zombie z = game.getZombie();
         g.fillRect(z.getPosX(), z.getPosY(), 10, 10);
         g.setColor(Color.RED);
+    }
+
+    // EFFECTS: draws bullet at specific location
+    private void drawBullet(Graphics g) {
+        ArrayList<Bullet> bullets = game.getBullets();
+        for (Bullet bullet : bullets) {
+            g.fillRect(bullet.getPosX(), bullet.getPosY(), 2, 2);
+            g.setColor(Color.BLACK);
+        }
     }
 }
