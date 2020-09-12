@@ -5,7 +5,9 @@ import model.Bullet;
 import model.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /*
  * Represents all types of weapons that the players can buy
@@ -36,10 +38,10 @@ public class Weapon {
      * EFFECTS: reduces the ammo count of the weapon by 1
      *          if no more ammo, throws an exception which indicates no ammo
      */
-    public ArrayList<Bullet> shoot(Player player) throws NoAmmoException {
+    public CopyOnWriteArrayList<Bullet> shoot(Player player) throws NoAmmoException {
         if (ammo > 0) {
             ammo -= 1;
-            ArrayList<Bullet> bullets = new ArrayList<>();
+            CopyOnWriteArrayList<Bullet> bullets = new CopyOnWriteArrayList<>();
             bullets.add(new Bullet(player));
             return bullets;
         } else {

@@ -1,7 +1,7 @@
 package model;
 
 public class Bullet extends Entity {
-    private static final int SPEED = 20;
+    private static final int SPEED = 10;
     private static final int WIDTH = 2;
     private static final int LENGTH = 5;
 

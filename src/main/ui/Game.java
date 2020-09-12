@@ -15,13 +15,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game extends JFrame implements KeyListener {
     private Player player;
     private Zombie zombie;
     private Score score;
-    private ArrayList<Bullet> bullets;
+    private CopyOnWriteArrayList<Bullet> bullets;
     private GameState gameState;
     private ShopPanel shopPanel;
     private GamePanel gamePanel;
@@ -65,7 +66,7 @@ public class Game extends JFrame implements KeyListener {
         this.player = gameState.loadPlayer();
         this.score = gameState.loadScore();
         this.zombie = gameState.loadZombie();
-        this.bullets = new ArrayList<>();
+        this.bullets = new CopyOnWriteArrayList<>();
     }
 
     //EFFECTS: initializes the game panel
@@ -223,7 +224,7 @@ public class Game extends JFrame implements KeyListener {
     private void addTimer() {
         Timer t = new Timer(INTERVAL, ae -> gamePanel.repaint());
         t.start();
-        Timer bulletTimer = new Timer(INTERVAL, ae -> this.updateGame());
+        Timer bulletTimer = new Timer(INTERVAL / 2, ae -> this.updateGame());
         bulletTimer.start();
     }
 
@@ -233,7 +234,8 @@ public class Game extends JFrame implements KeyListener {
         for (Bullet bullet : bullets) {
             try {
                 bullet.move();
-                if (bullet.getPosition() == zombie.getPosition()) {
+                if ((bullet.getPosX() + 5 >= zombie.getPosX() && bullet.getPosX() - 5 <= zombie.getPosX()) &&
+                    (bullet.getPosY() + 5 >= zombie.getPosY() && bullet.getPosY() - 5 <= zombie.getPosY())) {
                     bullets.remove(bullet);
                     score.increase(1);
                     this.zombie = new Zombie();
@@ -256,7 +258,7 @@ public class Game extends JFrame implements KeyListener {
         return this.score;
     }
 
-    public ArrayList<Bullet> getBullets() {
+    public CopyOnWriteArrayList<Bullet> getBullets() {
         return bullets;
     }
 
