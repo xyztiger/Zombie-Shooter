@@ -4,6 +4,7 @@ import exceptions.NoAmmoException;
 import model.Bullet;
 import model.Player;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /*
@@ -35,9 +36,12 @@ public class Weapon {
      * EFFECTS: reduces the ammo count of the weapon by 1
      *          if no more ammo, throws an exception which indicates no ammo
      */
-    public void shoot() throws NoAmmoException {
+    public ArrayList<Bullet> shoot(Player player) throws NoAmmoException {
         if (ammo > 0) {
             ammo -= 1;
+            ArrayList<Bullet> bullets = new ArrayList<>();
+            bullets.add(new Bullet(player));
+            return bullets;
         } else {
             throw new NoAmmoException();
         }

@@ -29,12 +29,12 @@ public class Uzi extends Weapon {
      * EFFECTS: reduces the ammo count of the weapon by 1
      *          if no more ammo, throws an exception which indicates no ammo
      */
-    public Bullet shoot(Player p) throws NoAmmoException {
-        if (ammo > 0) {
-            ammo -= 1;
-            return new Bullet(p);
-        } else {
-            throw new NoAmmoException();
-        }
-    }
+//    public Bullet shoot(Player p) throws NoAmmoException {
+//        if (ammo > 0) {
+//            ammo -= 1;
+//            return new Bullet(p);
+//        } else {
+//            throw new NoAmmoException();
+//        }
+//    }
 }

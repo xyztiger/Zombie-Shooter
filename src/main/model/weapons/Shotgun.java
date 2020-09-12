@@ -32,14 +32,14 @@ public class Shotgun extends Weapon {
      * EFFECTS: reduces the ammo count of the weapon by 1
      *          if no more ammo, throws an exception which indicates no ammo
      */
-    public List<Bullet> shoot(Player p) throws NoAmmoException {
-        if (ammo > 0) {
-            ammo -= 1;
-            return createSpread(p);
-        } else {
-            throw new NoAmmoException();
-        }
-    }
+//    public List<Bullet> shoot(Player p) throws NoAmmoException {
+//        if (ammo > 0) {
+//            ammo -= 1;
+//            return createSpread(p);
+//        } else {
+//            throw new NoAmmoException();
+//        }
+//    }
 
     public List<Bullet> createSpread(Player p) {
         List<Bullet> pellets = new ArrayList<>();

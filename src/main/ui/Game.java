@@ -49,7 +49,7 @@ public class Game extends JFrame implements KeyListener {
         initGamePanel();
         initKeyListener();
         displayMenu();
-        detectHit();
+//        detectHit();
     }
 
     // MODIFIES: this
@@ -182,7 +182,6 @@ public class Game extends JFrame implements KeyListener {
     }
 
 
-
     /*
      * MODIFIES: this
      * EFFECTS: shoots the player's current weapon in the player's current direction;
@@ -192,10 +191,14 @@ public class Game extends JFrame implements KeyListener {
         Weapon currentWeapon = player.getCurrentWeapon();
         try {
             switch (currentWeapon.getName()) {
-                case "Pistol": bullets.add(((Pistol)currentWeapon).shoot(player));
-                case "RPG": ((RPG)currentWeapon).shoot(player);
-                case "Uzi": ((Uzi)currentWeapon).shoot(player);
-                case "Shotgun": ((Shotgun)currentWeapon).shoot(player);
+                case "Pistol":
+                    bullets.addAll(currentWeapon.shoot(player));
+                case "RPG":
+                    bullets.addAll(currentWeapon.shoot(player));
+                case "Uzi":
+                    bullets.addAll(currentWeapon.shoot(player));
+                case "Shotgun":
+                    bullets.addAll(currentWeapon.shoot(player));
             }
         } catch (NoAmmoException nae) {
             System.out.println("Current weapon out of ammo!");
@@ -205,13 +208,11 @@ public class Game extends JFrame implements KeyListener {
 
     // EFFECTS: detects whether the player's shot hit a zombie or not
     private void detectHit() {
-        while (true) {
-            for (Bullet bullet : bullets) {
-                if (bullet.getPosition() == zombie.getPosition()) {
-                    bullets.remove(bullet);
-                    score.increase(1);
-                    this.zombie = new Zombie();
-                }
+        for (Bullet bullet : bullets) {
+            if (bullet.getPosition() == zombie.getPosition()) {
+                bullets.remove(bullet);
+                score.increase(1);
+                this.zombie = new Zombie();
             }
         }
     }
@@ -228,9 +229,15 @@ public class Game extends JFrame implements KeyListener {
 
     private void updateGame() {
 //        gamePanel.repaint();
+//        detectHit();
         for (Bullet bullet : bullets) {
             try {
                 bullet.move();
+                if (bullet.getPosition() == zombie.getPosition()) {
+                    bullets.remove(bullet);
+                    score.increase(1);
+                    this.zombie = new Zombie();
+                }
             } catch (BorderException be) {
                 bullets.remove(bullet);
             }
@@ -255,6 +262,7 @@ public class Game extends JFrame implements KeyListener {
 
 
     // METHODS BELOW NOT USED
+
     /**
      * Invoked when a key has been typed.
      * See the class description for {@link KeyEvent} for a definition of
