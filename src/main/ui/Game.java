@@ -2,9 +2,10 @@ package ui;
 
 import exceptions.BorderException;
 import exceptions.NoAmmoException;
+import model.Bullet;
 import model.Player;
 import model.Score;
-import model.Weapon;
+import model.weapons.*;
 import model.Zombie;
 import persistence.GameState;
 
@@ -14,12 +15,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // A game where a player controls a character to move and shoot zombies
 public class Game extends JFrame implements KeyListener {
     private Player player;
     private Zombie zombie;
     private Score score;
+    private CopyOnWriteArrayList<Bullet> bullets;
     private GameState gameState;
     private ShopPanel shopPanel;
     private GamePanel gamePanel;
@@ -47,6 +50,7 @@ public class Game extends JFrame implements KeyListener {
         initGamePanel();
         initKeyListener();
         displayMenu();
+//        detectHit();
     }
 
     // MODIFIES: this
@@ -62,6 +66,7 @@ public class Game extends JFrame implements KeyListener {
         this.player = gameState.loadPlayer();
         this.score = gameState.loadScore();
         this.zombie = gameState.loadZombie();
+        this.bullets = new CopyOnWriteArrayList<>();
     }
 
     //EFFECTS: initializes the game panel
@@ -134,7 +139,7 @@ public class Game extends JFrame implements KeyListener {
     }
 
     // MODIFIES: this
-    // EFFECTSL shows the choose weapon menu
+    // EFFECTS shows the choose weapon menu
     private void processChooseWeapon() {
         choosePanel = new ChoosePanel(this);
         this.player = choosePanel.getPlayer();
@@ -178,7 +183,6 @@ public class Game extends JFrame implements KeyListener {
     }
 
 
-
     /*
      * MODIFIES: this
      * EFFECTS: shoots the player's current weapon in the player's current direction;
@@ -187,36 +191,30 @@ public class Game extends JFrame implements KeyListener {
     private void processShootGun() {
         Weapon currentWeapon = player.getCurrentWeapon();
         try {
-            currentWeapon.shoot();
-            if (detectHit()) {
-                score.increase(1);
-                this.zombie = new Zombie();
-                System.out.println("Killed a zombie! Here comes another one!");
-            } else {
-                System.out.println("Missed! Try again!");
+            switch (currentWeapon.getName()) {
+                case "Pistol":
+                    bullets.addAll(currentWeapon.shoot(player));
+                case "RPG":
+                    bullets.addAll(currentWeapon.shoot(player));
+                case "Uzi":
+                    bullets.addAll(currentWeapon.shoot(player));
+                case "Shotgun":
+                    bullets.addAll(currentWeapon.shoot(player));
             }
         } catch (NoAmmoException nae) {
             System.out.println("Current weapon out of ammo!");
         }
     }
 
+
     // EFFECTS: detects whether the player's shot hit a zombie or not
-    private boolean detectHit() {
-        switch (player.getDirection()) {
-            case N:
-                return ((zombie.getPosX() - 5) <= player.getPosX() && player.getPosX() <= (zombie.getPosX() + 5))
-                        && (player.getPosY() >= zombie.getPosY());
-            case E:
-                return ((zombie.getPosY() - 5) <= player.getPosY() && player.getPosY() <= (zombie.getPosY() + 5))
-                        && (player.getPosX() <= zombie.getPosX());
-            case S:
-                return ((zombie.getPosX() - 5) <= player.getPosX() && player.getPosX() <= (zombie.getPosX() + 5))
-                        && (player.getPosY() <= zombie.getPosY());
-            case W:
-                return ((zombie.getPosY() - 5) <= player.getPosY() && player.getPosY() <= (zombie.getPosY() + 5))
-                        && (player.getPosX() >= zombie.getPosX());
-            default:
-                return false;
+    private void detectHit() {
+        for (Bullet bullet : bullets) {
+            if (bullet.getPosition() == zombie.getPosition()) {
+                bullets.remove(bullet);
+                score.increase(1);
+                this.zombie = new Zombie();
+            }
         }
     }
 
@@ -226,6 +224,26 @@ public class Game extends JFrame implements KeyListener {
     private void addTimer() {
         Timer t = new Timer(INTERVAL, ae -> gamePanel.repaint());
         t.start();
+        Timer bulletTimer = new Timer(INTERVAL / 2, ae -> this.updateGame());
+        bulletTimer.start();
+    }
+
+    private void updateGame() {
+//        gamePanel.repaint();
+//        detectHit();
+        for (Bullet bullet : bullets) {
+            try {
+                bullet.move();
+                if ((bullet.getPosX() + 5 >= zombie.getPosX() && bullet.getPosX() - 5 <= zombie.getPosX()) &&
+                    (bullet.getPosY() + 5 >= zombie.getPosY() && bullet.getPosY() - 5 <= zombie.getPosY())) {
+                    bullets.remove(bullet);
+                    score.increase(1);
+                    this.zombie = new Zombie();
+                }
+            } catch (BorderException be) {
+                bullets.remove(bullet);
+            }
+        }
     }
 
     public Player getPlayer() {
@@ -240,8 +258,13 @@ public class Game extends JFrame implements KeyListener {
         return this.score;
     }
 
+    public CopyOnWriteArrayList<Bullet> getBullets() {
+        return bullets;
+    }
+
 
     // METHODS BELOW NOT USED
+
     /**
      * Invoked when a key has been typed.
      * See the class description for {@link KeyEvent} for a definition of

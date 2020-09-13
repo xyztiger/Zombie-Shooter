@@ -2,10 +2,13 @@ package model;
 
 import enviornment.Stage;
 import exceptions.BorderException;
+import model.weapons.Pistol;
+import model.weapons.RPG;
+import model.weapons.Uzi;
+import model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -158,17 +161,17 @@ class PlayerTest {
     @Test
     void testGetDirection() {
         testPlayer.setDirection("N");
-        assertEquals(testPlayer.getDirection(), Player.Direction.N);
-        assertNotEquals(testPlayer.getDirection(), Player.Direction.S);
+        assertEquals(testPlayer.getDirection(), Direction.N);
+        assertNotEquals(testPlayer.getDirection(), Direction.S);
         testPlayer.setDirection("W");
-        assertNotEquals(testPlayer.getDirection(), Player.Direction.N);
-        assertEquals(testPlayer.getDirection(), Player.Direction.W);
+        assertNotEquals(testPlayer.getDirection(), Direction.N);
+        assertEquals(testPlayer.getDirection(), Direction.W);
         testPlayer.setDirection("E");
-        assertNotEquals(testPlayer.getDirection(), Player.Direction.S);
-        assertEquals(testPlayer.getDirection(), Player.Direction.E);
+        assertNotEquals(testPlayer.getDirection(), Direction.S);
+        assertEquals(testPlayer.getDirection(), Direction.E);
         testPlayer.setDirection("S");
-        assertNotEquals(testPlayer.getDirection(), Player.Direction.N);
-        assertEquals(testPlayer.getDirection(), Player.Direction.S);
+        assertNotEquals(testPlayer.getDirection(), Direction.N);
+        assertEquals(testPlayer.getDirection(), Direction.S);
     }
 
     @Test

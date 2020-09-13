@@ -1,8 +1,13 @@
-package model;
+package model.weapons;
 
 import exceptions.NoAmmoException;
+import model.Bullet;
+import model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /*
  * Represents all types of weapons that the players can buy
@@ -12,8 +17,9 @@ import java.util.Objects;
  */
 
 public class Weapon {
-    private int ammo; // the weapon's current ammo count
-    private int cost; // the number of points required to buy the weapon
+    int ammo; // the weapon's current ammo count
+    int cost; // the number of points required to buy the weapon
+    Player player;
     private String name; // the weapon's name
     private static final int MAXAMMO = 0;
 
@@ -32,9 +38,12 @@ public class Weapon {
      * EFFECTS: reduces the ammo count of the weapon by 1
      *          if no more ammo, throws an exception which indicates no ammo
      */
-    public void shoot() throws NoAmmoException {
+    public CopyOnWriteArrayList<Bullet> shoot(Player player) throws NoAmmoException {
         if (ammo > 0) {
             ammo -= 1;
+            CopyOnWriteArrayList<Bullet> bullets = new CopyOnWriteArrayList<>();
+            bullets.add(new Bullet(player));
+            return bullets;
         } else {
             throw new NoAmmoException();
         }
